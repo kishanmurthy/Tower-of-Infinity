@@ -1,7 +1,13 @@
 #include<GL/glut.h>
 #include<stdio.h>
-
+#define FPS 60
+#define TIMESTEP 1.0/60.0
 float v[2] = { 0,0 };
+float initial_velocity_horizontal = 0, velocity_horizontal = 0, initial_velocity_vertical=0, velocity_vertical=0, acceleration_horizontal = 0 , acceleration_vertical=0 ;
+float displacement_x = 0, displacement_y = 0;
+float time_x = TIMESTEP, time_y = TIMESTEP;
+float friction_left = 0, friction_right =0;
+bool can_jump = true;
 bool keys[4] = { false };
 void render()
 {
@@ -15,24 +21,38 @@ void move_horizontal(float *v, float dx)
 {	
 	v[0] += dx;
 	if (v[0] > 1870)
+	{
 		v[0] = 1870;
+		initial_velocity_horizontal = 0;
+		//time_x = 0;
+	}
 	if (v[0] < 0)
+	{
 		v[0] = 0;
-	
+		initial_velocity_horizontal = 0;
+	//	time_x = 0;
+	}
 }
 void move_vertical(float *v, float dy)
 {
 	v[1] += dy;
 	if (v[1] > 1030)
+	{
 		v[1] = 1030;
+		initial_velocity_vertical = 0;
+		//time_y = 0;
+	}
 	if (v[1] < 0)
+	{
 		v[1] = 0;
-
+		initial_velocity_vertical = 0;
+		can_jump = true;
+	}
 }
 
 void keyboardDown(unsigned char c,int x,int y)
 {
-	if (c == 'w' || c ==GLUT_KEY_UP)
+	if (c == 'w')
 		keys[0] = true;
 	else if (c == 's')
 		keys[1] = true;
@@ -41,7 +61,7 @@ void keyboardDown(unsigned char c,int x,int y)
 	else if (c == 'd')
 		keys[3] = true;
 	
-	printf("%d", c);
+
 
 }
 void keyboardUp(unsigned char c, int x, int y)
@@ -68,7 +88,6 @@ void specialDown(int c, int x, int y)
 	else if (c == GLUT_KEY_RIGHT)
 		keys[3] = true;
 
-	printf("%d", c);
 
 }
 void specialUp(int c, int x, int y)
@@ -83,19 +102,82 @@ void specialUp(int c, int x, int y)
 		keys[3] = false;
 
 }
+void move_object()
+{
+	
+		move_vertical(v, displacement_y);
+		move_horizontal(v, displacement_x);
+
+}
+
+void compute_velocity()
+{
+	velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
+	velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP;
+	
+}
+
+void compute_displacement()
+{
+	
+	displacement_x = (initial_velocity_horizontal *time_x) + 0.5 *acceleration_horizontal * time_x * time_x;
+	/*
+	if (acceleration_horizontal)
+	{
+		displacement_x = (velocity_horizontal*velocity_horizontal - initial_velocity_horizontal*initial_velocity_horizontal) / (2 * acceleration_horizontal);
+	
+	}
+	else
+	{
+		displacement_x = 0;
+		velocity_horizontal = 0;
+	}*/
+/*
+	if (acceleration_vertical)
+		displacement_y = (velocity_vertical*velocity_vertical - initial_velocity_vertical*initial_velocity_vertical) / (2 * acceleration_vertical);
+	else
+	{
+		displacement_y = 0;
+		velocity_vertical = 0;
+	}
+*/
+	displacement_y = (initial_velocity_vertical * time_y) + 0.5 * acceleration_vertical * time_y *time_y;
+	initial_velocity_horizontal = velocity_horizontal;
+	initial_velocity_vertical = velocity_vertical;
+}
 
 void timmer(int x)
 {
 	if (keys[0])
-		move_vertical(v, 50);
-	else if(keys[1])
-		move_vertical(v, -50);
+	{
+		
+		if (can_jump)
+		{
+			acceleration_vertical = 150000;
+			can_jump = false;
+		}
+		else
+		{
+			acceleration_vertical = -7500;
+		}
+		
+	}
+	else
+	{
+		acceleration_vertical = -7500;
+		
+	}
 	if (keys[2])
-		move_horizontal(v, -50);
-	else if(keys[3])
-		move_horizontal(v, 50);
+		acceleration_horizontal = -7500;
+	else if (keys[3])
+		acceleration_horizontal = 7500;
+	else
+		acceleration_horizontal = 0;
+	compute_velocity();
+	compute_displacement();
+	move_object();
 	glutPostRedisplay();
-	glutTimerFunc(10, timmer, 60);
+	glutTimerFunc(1000 / FPS, timmer, 60);
 
 }
 void reshape(int w,int h)
@@ -134,6 +216,6 @@ int main(int argc, char *argv[])
 	glutSpecialFunc(specialDown);
 	glutSpecialUpFunc(specialUp);
 	glutReshapeFunc(reshape);
-	glutTimerFunc(100,timmer,60);
+	glutTimerFunc(1000/FPS,timmer,60);
 	glutMainLoop();
 }
