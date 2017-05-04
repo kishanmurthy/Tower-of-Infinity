@@ -2,12 +2,12 @@
 #include<iostream>
 #include<stdio.h>
 #include "Player.h"
+#include "KeyboardBuffer.h"
 using namespace std;
 #define FPS 60
 
-bool keys[4] = { false };
 Player player;
-
+bool KeyboardBuffer::keys[4] = { false };
 void render()
 {
 	glClearColor(0,0, 0, 1);
@@ -17,62 +17,9 @@ void render()
 	glFlush();
 }
 
-void keyboardDown(unsigned char c,int x,int y)
-{
-	if (c == 'w')
-		keys[0] = true;
-	else if (c == 's')
-		keys[1] = true;
-	else if (c == 'a')
-		keys[2] = true;
-	else if (c == 'd')
-		keys[3] = true;
-	
-
-
-}
-void keyboardUp(unsigned char c, int x, int y)
-{
-	if (c == 'w')
-		keys[0] = false;
-	else if (c == 's')
-		keys[1] = false;
-	else if (c == 'a')
-		keys[2] = false;
-	else if (c == 'd')
-		keys[3] = false;
-
-}
-
-void specialDown(int c, int x, int y)
-{
-	if (c == GLUT_KEY_UP)
-		keys[0] = true;
-	else if (c == GLUT_KEY_DOWN)
-		keys[1] = true;
-	else if (c == GLUT_KEY_LEFT)
-		keys[2] = true;
-	else if (c == GLUT_KEY_RIGHT)
-		keys[3] = true;
-
-
-}
-void specialUp(int c, int x, int y)
-{
-	if (c == GLUT_KEY_UP)
-		keys[0] = false;
-	else if (c == GLUT_KEY_DOWN)
-		keys[1] = false;
-	else if (c == GLUT_KEY_LEFT)
-		keys[2] = false;
-	else if (c == GLUT_KEY_RIGHT)
-		keys[3] = false;
-
-}
-
 void timmer(int x)
 {
-	if (keys[0])
+	if (KeyboardBuffer::keys[0])
 	{
 		
 		if (player.canJump)
@@ -91,11 +38,11 @@ void timmer(int x)
 		player.acceleration_vertical = -7500;
 		
 	}
-	if (keys[2] && player.canJump)
+	if (KeyboardBuffer::keys[2] && player.canJump)
 	{
 		player.acceleration_horizontal = -8000;
 	}
-	else if (keys[3] && player.canJump)
+	else if (KeyboardBuffer::keys[3] && player.canJump)
 		player.acceleration_horizontal = 8000;
 	else
 	{
@@ -170,10 +117,10 @@ int main(int argc, char *argv[])
 	glutCreateWindow("Icy Jump");
 	myinit();
 	glutDisplayFunc(render);
-	glutKeyboardFunc(keyboardDown);
-	glutKeyboardUpFunc(keyboardUp);
-	glutSpecialFunc(specialDown);
-	glutSpecialUpFunc(specialUp);
+	glutKeyboardFunc(&(KeyboardBuffer::keyboardDown));
+	glutKeyboardUpFunc(&(KeyboardBuffer::keyboardUp));
+	glutSpecialFunc(&(KeyboardBuffer::specialDown));
+	glutSpecialUpFunc(&(KeyboardBuffer::specialUp));
 	glutReshapeFunc(reshape);
 	glutTimerFunc(1000/FPS,timmer,60);
 	glutMainLoop();
