@@ -8,6 +8,7 @@ float displacement_x = 0, displacement_y = 0;
 float time_x = TIMESTEP, time_y = TIMESTEP;
 float friction_left = 0, friction_right =0;
 bool canJump = true;
+int jumpFinish = 0;
 bool keys[4] = { false };
 void render()
 {
@@ -46,7 +47,11 @@ void move_vertical(float *v, float dy)
 	{
 		v[1] = 0;
 		initial_velocity_vertical = 0;
-		canJump = true;
+		if (!canJump)
+		{
+			canJump = true;
+			jumpFinish = 1;
+		}
 	}
 }
 
@@ -113,7 +118,8 @@ void move_object()
 void compute_velocity()
 {
 	velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
-	velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP;
+	if ((velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP )> 2000)
+		velocity_horizontal = 2000;
 	
 }
 
@@ -149,20 +155,36 @@ void timmer(int x)
 	}
 	if (keys[2] && canJump)
 	{
-		acceleration_horizontal = -4000;
+		acceleration_horizontal = -8000;
 	}
 	else if (keys[3] && canJump)
-		acceleration_horizontal = 4000;
+		acceleration_horizontal = 8000;
 	else
 	{
-		if (initial_velocity_horizontal > 1000 && canJump)
-			acceleration_horizontal = -2000;
-		else if (initial_velocity_horizontal < -1000 && canJump)
-			acceleration_horizontal = 2000;
-		else if(canJump)
+		if (jumpFinish == 1)
 		{
-			initial_velocity_horizontal = 0;
-			acceleration_horizontal = 0;
+			if (initial_velocity_horizontal > 100 && canJump)
+				acceleration_horizontal = -70000;
+			else if (initial_velocity_horizontal < -100 && canJump)
+				acceleration_horizontal = 70000;
+			else if (canJump)
+			{
+				initial_velocity_horizontal = 0;
+				acceleration_horizontal = 0;
+			}
+			jumpFinish = 0;
+		}
+		else
+		{
+			if (initial_velocity_horizontal > 100 && canJump)
+				acceleration_horizontal = -2000;
+			else if (initial_velocity_horizontal < -100 && canJump)
+				acceleration_horizontal = 2000;
+			else if (canJump)
+			{
+				initial_velocity_horizontal = 0;
+				acceleration_horizontal = 0;
+			}
 		}
 	}
 	compute_velocity();
