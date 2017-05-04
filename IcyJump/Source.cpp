@@ -32,7 +32,7 @@ void move_vertical(float *v, float dy)
 
 void keyboardDown(unsigned char c,int x,int y)
 {
-	if (c == 'w')
+	if (c == 'w' || c ==GLUT_KEY_UP)
 		keys[0] = true;
 	else if (c == 's')
 		keys[1] = true;
@@ -40,6 +40,8 @@ void keyboardDown(unsigned char c,int x,int y)
 		keys[2] = true;
 	else if (c == 'd')
 		keys[3] = true;
+	
+	printf("%d", c);
 
 }
 void keyboardUp(unsigned char c, int x, int y)
@@ -55,11 +57,37 @@ void keyboardUp(unsigned char c, int x, int y)
 
 }
 
+void specialDown(int c, int x, int y)
+{
+	if (c == GLUT_KEY_UP)
+		keys[0] = true;
+	else if (c == GLUT_KEY_DOWN)
+		keys[1] = true;
+	else if (c == GLUT_KEY_LEFT)
+		keys[2] = true;
+	else if (c == GLUT_KEY_RIGHT)
+		keys[3] = true;
+
+	printf("%d", c);
+
+}
+void specialUp(int c, int x, int y)
+{
+	if (c == GLUT_KEY_UP)
+		keys[0] = false;
+	else if (c == GLUT_KEY_DOWN)
+		keys[1] = false;
+	else if (c == GLUT_KEY_LEFT)
+		keys[2] = false;
+	else if (c == GLUT_KEY_RIGHT)
+		keys[3] = false;
+
+}
 
 void timmer(int x)
 {
 	if (keys[0])
-		move_vertical(v,50);
+		move_vertical(v, 50);
 	else if(keys[1])
 		move_vertical(v, -50);
 	if (keys[2])
@@ -103,6 +131,8 @@ int main(int argc, char *argv[])
 	glutDisplayFunc(render);
 	glutKeyboardFunc(keyboardDown);
 	glutKeyboardUpFunc(keyboardUp);
+	glutSpecialFunc(specialDown);
+	glutSpecialUpFunc(specialUp);
 	glutReshapeFunc(reshape);
 	glutTimerFunc(100,timmer,60);
 	glutMainLoop();
