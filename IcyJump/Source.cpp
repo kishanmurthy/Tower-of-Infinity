@@ -5,7 +5,6 @@
 float v[2] = { 0,0 };
 float initial_velocity_horizontal = 0, velocity_horizontal = 0, initial_velocity_vertical=0, velocity_vertical=0, acceleration_horizontal = 0 , acceleration_vertical=0 ;
 float displacement_x = 0, displacement_y = 0;
-float time_x = TIMESTEP, time_y = TIMESTEP;
 float friction_left = 0, friction_right =0;
 bool canJump = true;
 int jumpFinish = 0;
@@ -25,13 +24,13 @@ void move_horizontal(float *v, float dx)
 	{
 		v[0] = 1870;
 		initial_velocity_horizontal = 0;
-		//time_x = 0;
+		
 	}
 	if (v[0] < 0)
 	{
 		v[0] = 0;
 		initial_velocity_horizontal = 0;
-	//	time_x = 0;
+	
 	}
 }
 void move_vertical(float *v, float dy)
@@ -126,8 +125,8 @@ void compute_velocity()
 void compute_displacement()
 {
 	
-	displacement_x = (initial_velocity_horizontal *time_x) + 0.5 *acceleration_horizontal * time_x * time_x;
-	displacement_y = (initial_velocity_vertical * time_y) + 0.5 * acceleration_vertical * time_y *time_y;
+	displacement_x = (initial_velocity_horizontal *TIMESTEP) + 0.5 *acceleration_horizontal * TIMESTEP * TIMESTEP;
+	displacement_y = (initial_velocity_vertical * TIMESTEP) + 0.5 * acceleration_vertical * TIMESTEP *TIMESTEP;
 	initial_velocity_horizontal = velocity_horizontal;
 	initial_velocity_vertical = velocity_vertical;
 }
@@ -163,10 +162,10 @@ void timmer(int x)
 	{
 		if (jumpFinish == 1)
 		{
-			if (initial_velocity_horizontal > 100 && canJump)
-				acceleration_horizontal = -70000;
-			else if (initial_velocity_horizontal < -100 && canJump)
-				acceleration_horizontal = 70000;
+			if (initial_velocity_horizontal > 700 && canJump)
+				acceleration_horizontal = -60000;
+			else if (initial_velocity_horizontal < -700 && canJump)
+				acceleration_horizontal = 60000;
 			else if (canJump)
 			{
 				initial_velocity_horizontal = 0;
