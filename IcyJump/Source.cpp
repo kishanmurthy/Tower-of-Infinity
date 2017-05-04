@@ -7,7 +7,7 @@ float initial_velocity_horizontal = 0, velocity_horizontal = 0, initial_velocity
 float displacement_x = 0, displacement_y = 0;
 float time_x = TIMESTEP, time_y = TIMESTEP;
 float friction_left = 0, friction_right =0;
-bool can_jump = true;
+bool canJump = true;
 bool keys[4] = { false };
 void render()
 {
@@ -46,7 +46,7 @@ void move_vertical(float *v, float dy)
 	{
 		v[1] = 0;
 		initial_velocity_vertical = 0;
-		can_jump = true;
+		canJump = true;
 	}
 }
 
@@ -121,26 +121,6 @@ void compute_displacement()
 {
 	
 	displacement_x = (initial_velocity_horizontal *time_x) + 0.5 *acceleration_horizontal * time_x * time_x;
-	/*
-	if (acceleration_horizontal)
-	{
-		displacement_x = (velocity_horizontal*velocity_horizontal - initial_velocity_horizontal*initial_velocity_horizontal) / (2 * acceleration_horizontal);
-	
-	}
-	else
-	{
-		displacement_x = 0;
-		velocity_horizontal = 0;
-	}*/
-/*
-	if (acceleration_vertical)
-		displacement_y = (velocity_vertical*velocity_vertical - initial_velocity_vertical*initial_velocity_vertical) / (2 * acceleration_vertical);
-	else
-	{
-		displacement_y = 0;
-		velocity_vertical = 0;
-	}
-*/
 	displacement_y = (initial_velocity_vertical * time_y) + 0.5 * acceleration_vertical * time_y *time_y;
 	initial_velocity_horizontal = velocity_horizontal;
 	initial_velocity_vertical = velocity_vertical;
@@ -151,14 +131,14 @@ void timmer(int x)
 	if (keys[0])
 	{
 		
-		if (can_jump)
+		if (canJump)
 		{
-			acceleration_vertical = 150000;
-			can_jump = false;
+			acceleration_vertical = 100000;
+			
 		}
 		else
 		{
-			acceleration_vertical = -7500;
+			acceleration_vertical = -5000;
 		}
 		
 	}
@@ -167,15 +147,34 @@ void timmer(int x)
 		acceleration_vertical = -7500;
 		
 	}
-	if (keys[2])
-		acceleration_horizontal = -7500;
-	else if (keys[3])
-		acceleration_horizontal = 7500;
+	if (keys[2] && canJump)
+	{
+		acceleration_horizontal = -4000;
+	}
+	else if (keys[3] && canJump)
+		acceleration_horizontal = 4000;
 	else
-		acceleration_horizontal = 0;
+	{
+		if (initial_velocity_horizontal > 1000 && canJump)
+			acceleration_horizontal = -2000;
+		else if (initial_velocity_horizontal < -1000 && canJump)
+			acceleration_horizontal = 2000;
+		else if(canJump)
+		{
+			initial_velocity_horizontal = 0;
+			acceleration_horizontal = 0;
+		}
+	}
 	compute_velocity();
 	compute_displacement();
 	move_object();
+
+	if (acceleration_vertical == 100000)
+	{
+		canJump = false;
+		acceleration_horizontal = 0;
+
+	}
 	glutPostRedisplay();
 	glutTimerFunc(1000 / FPS, timmer, 60);
 
