@@ -1,57 +1,90 @@
 #include<GL/glut.h>
+#include<iostream>
 #include<stdio.h>
+using namespace std;
 #define FPS 60
 #define TIMESTEP 1.0/60.0
-float v[2] = { 0,0 };
-float initial_velocity_horizontal = 0, velocity_horizontal = 0, initial_velocity_vertical=0, velocity_vertical=0, acceleration_horizontal = 0 , acceleration_vertical=0 ;
-float displacement_x = 0, displacement_y = 0;
-float friction_left = 0, friction_right =0;
-bool canJump = true;
-int jumpFinish = 0;
 bool keys[4] = { false };
+class Player
+{
+public:
+	float v[2] = { 0,0 };
+	float initial_velocity_horizontal = 0, velocity_horizontal = 0, initial_velocity_vertical = 0, velocity_vertical = 0, acceleration_horizontal = 0, acceleration_vertical = 0;
+	float displacement_x = 0, displacement_y = 0;
+	bool canJump = true;
+	int jumpFinish = 0;
+	
+	void move_horizontal(float *v, float dx)
+	{
+		v[0] += dx;
+		if (v[0] > 1870)
+		{
+			v[0] = 1870;
+			initial_velocity_horizontal = 0;
+
+		}
+		if (v[0] < 0)
+		{
+			v[0] = 0;
+			initial_velocity_horizontal = 0;
+
+		}
+	}
+	void move_vertical(float *v, float dy)
+	{
+		v[1] += dy;
+		if (v[1] > 1030)
+		{
+			v[1] = 1030;
+			initial_velocity_vertical = 0;
+		
+		}
+		if (v[1] < 0)
+		{
+			v[1] = 0;
+			initial_velocity_vertical = 0;
+			if (!canJump)
+			{
+				canJump = true;
+				jumpFinish = 1;
+			}
+		}
+	}
+	void move_object()
+	{
+
+		move_vertical(v, displacement_y);
+		move_horizontal(v, displacement_x);
+
+	}
+
+	void compute_velocity()
+	{
+		velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
+		if ((velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP)> 2000)
+			velocity_horizontal = 2000;
+
+	}
+
+	void compute_displacement()
+	{
+
+		displacement_x = (initial_velocity_horizontal *TIMESTEP) + 0.5 *acceleration_horizontal * TIMESTEP * TIMESTEP;
+		displacement_y = (initial_velocity_vertical * TIMESTEP) + 0.5 * acceleration_vertical * TIMESTEP *TIMESTEP;
+		initial_velocity_horizontal = velocity_horizontal;
+		initial_velocity_vertical = velocity_vertical;
+	}
+
+
+};
+Player player;
 void render()
 {
 	glClearColor(0,0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glColor3f(0.5, 0.5, 0);
-	glRectf(v[0], v[1], v[0]+50, v[1]+50);
+	glRectf(player.v[0], player.v[1], player.v[0]+50, player.v[1]+50);
 	glFlush();
-}
-void move_horizontal(float *v, float dx)
-{	
-	v[0] += dx;
-	if (v[0] > 1870)
-	{
-		v[0] = 1870;
-		initial_velocity_horizontal = 0;
-		
-	}
-	if (v[0] < 0)
-	{
-		v[0] = 0;
-		initial_velocity_horizontal = 0;
-	
-	}
-}
-void move_vertical(float *v, float dy)
-{
-	v[1] += dy;
-	if (v[1] > 1030)
-	{
-		v[1] = 1030;
-		initial_velocity_vertical = 0;
-		//time_y = 0;
-	}
-	if (v[1] < 0)
-	{
-		v[1] = 0;
-		initial_velocity_vertical = 0;
-		if (!canJump)
-		{
-			canJump = true;
-			jumpFinish = 1;
-		}
-	}
 }
 
 void keyboardDown(unsigned char c,int x,int y)
@@ -106,94 +139,70 @@ void specialUp(int c, int x, int y)
 		keys[3] = false;
 
 }
-void move_object()
-{
-	
-		move_vertical(v, displacement_y);
-		move_horizontal(v, displacement_x);
-
-}
-
-void compute_velocity()
-{
-	velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
-	if ((velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP )> 2000)
-		velocity_horizontal = 2000;
-	
-}
-
-void compute_displacement()
-{
-	
-	displacement_x = (initial_velocity_horizontal *TIMESTEP) + 0.5 *acceleration_horizontal * TIMESTEP * TIMESTEP;
-	displacement_y = (initial_velocity_vertical * TIMESTEP) + 0.5 * acceleration_vertical * TIMESTEP *TIMESTEP;
-	initial_velocity_horizontal = velocity_horizontal;
-	initial_velocity_vertical = velocity_vertical;
-}
 
 void timmer(int x)
 {
 	if (keys[0])
 	{
 		
-		if (canJump)
+		if (player.canJump)
 		{
-			acceleration_vertical = 100000;
+			player.acceleration_vertical = 100000;
 			
 		}
 		else
 		{
-			acceleration_vertical = -5000;
+			player.acceleration_vertical = -5000;
 		}
 		
 	}
 	else
 	{
-		acceleration_vertical = -7500;
+		player.acceleration_vertical = -7500;
 		
 	}
-	if (keys[2] && canJump)
+	if (keys[2] && player.canJump)
 	{
-		acceleration_horizontal = -8000;
+		player.acceleration_horizontal = -8000;
 	}
-	else if (keys[3] && canJump)
-		acceleration_horizontal = 8000;
+	else if (keys[3] && player.canJump)
+		player.acceleration_horizontal = 8000;
 	else
 	{
-		if (jumpFinish == 1)
+		if (player.jumpFinish == 1)
 		{
-			if (initial_velocity_horizontal > 700 && canJump)
-				acceleration_horizontal = -60000;
-			else if (initial_velocity_horizontal < -700 && canJump)
-				acceleration_horizontal = 60000;
-			else if (canJump)
+			if (player.initial_velocity_horizontal > 700 && player.canJump)
+				player.acceleration_horizontal = -60000;
+			else if (player.initial_velocity_horizontal < -700 && player.canJump)
+				player.acceleration_horizontal = 60000;
+			else if (player.canJump)
 			{
-				initial_velocity_horizontal = 0;
-				acceleration_horizontal = 0;
+				player.initial_velocity_horizontal = 0;
+				player.acceleration_horizontal = 0;
 			}
-			jumpFinish = 0;
+			player.jumpFinish = 0;
 		}
 		else
 		{
-			if (initial_velocity_horizontal > 100 && canJump)
-				acceleration_horizontal = -2000;
-			else if (initial_velocity_horizontal < -100 && canJump)
-				acceleration_horizontal = 2000;
-			else if (canJump)
+			if (player.initial_velocity_horizontal > 100 && player.canJump)
+				player.acceleration_horizontal = -2000;
+			else if (player.initial_velocity_horizontal < -100 && player.canJump)
+				player.acceleration_horizontal = 2000;
+			else if (player.canJump)
 			{
-				initial_velocity_horizontal = 0;
-				acceleration_horizontal = 0;
+				player.initial_velocity_horizontal = 0;
+				player.acceleration_horizontal = 0;
 			}
 		}
 	}
-	compute_velocity();
-	compute_displacement();
-	move_object();
+	player.compute_velocity();
+	player.compute_displacement();
+	player.move_object();
 
-	if (acceleration_vertical == 100000)
+	if (player.acceleration_vertical == 100000)
 	{
-		canJump = false;
-		acceleration_horizontal = 0;
+		player.canJump = false;
+		player.acceleration_horizontal = 0;
 
 	}
 	glutPostRedisplay();
