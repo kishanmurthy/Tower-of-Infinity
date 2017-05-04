@@ -9,11 +9,29 @@ class Player
 {
 public:
 	float v[2] = { 0,0 };
-	float initial_velocity_horizontal = 0, velocity_horizontal = 0, initial_velocity_vertical = 0, velocity_vertical = 0, acceleration_horizontal = 0, acceleration_vertical = 0;
-	float displacement_x = 0, displacement_y = 0;
-	bool canJump = true;
-	int jumpFinish = 0;
-	
+	float initial_velocity_horizontal;
+	float velocity_horizontal;
+	float initial_velocity_vertical;
+	float velocity_vertical;
+	float acceleration_horizontal;
+	float acceleration_vertical;
+	float displacement_x;
+	float displacement_y;
+	bool canJump;
+	bool jumpFinish;
+	Player(){
+		v[0] = v[1] = 0;
+		initial_velocity_horizontal = 0;
+		velocity_horizontal = 0;
+		initial_velocity_vertical = 0;
+		velocity_vertical = 0;
+		acceleration_horizontal = 0;
+		acceleration_vertical = 0;
+		displacement_x = 0;
+		displacement_y = 0;
+		canJump = true;
+		jumpFinish = false;
+	}
 	void move_horizontal(float *v, float dx)
 	{
 		v[0] += dx;
@@ -169,7 +187,7 @@ void timmer(int x)
 		player.acceleration_horizontal = 8000;
 	else
 	{
-		if (player.jumpFinish == 1)
+		if (player.jumpFinish)
 		{
 			if (player.initial_velocity_horizontal > 700 && player.canJump)
 				player.acceleration_horizontal = -60000;
@@ -180,7 +198,7 @@ void timmer(int x)
 				player.initial_velocity_horizontal = 0;
 				player.acceleration_horizontal = 0;
 			}
-			player.jumpFinish = 0;
+			player.jumpFinish = false;
 		}
 		else
 		{
