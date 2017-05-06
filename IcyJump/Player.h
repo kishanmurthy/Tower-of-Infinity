@@ -6,7 +6,7 @@ class Player
 {
 public:
 	Block playerBlock;
-	float v[2] ;
+
 	float initial_velocity_horizontal;
 	float velocity_horizontal;
 	float initial_velocity_vertical;
@@ -23,8 +23,7 @@ public:
 		
 		this->gameLayout = gameLayout;
 		playerBlock.setAttrib(200, 100, 250, 150);
-		v[0] = 200;
-		v[1] = 100;
+	
 		initial_velocity_horizontal = 0;
 		velocity_horizontal = 0;
 		initial_velocity_vertical = 0;
@@ -39,24 +38,25 @@ public:
 	void move_horizontal(float dx)
 	{
 		playerBlock.increment_x(dx);
-	//	v[0] += dx;
+
 		if (playerBlock.x1 > 1670)
 		{
-			playerBlock.x1 = 1670;
+			playerBlock.setX(1670, 1720);
+	
 			initial_velocity_horizontal = 0;
 
 		}
 		if (playerBlock.x1 < 200)
 		{
-			playerBlock.x1 = 200;
+			playerBlock.setX(200, 250);
+
 			initial_velocity_horizontal = 0;
 
 		}
 	}
 	void move_vertical(float dy)
 	{
-		cout << v[1] << endl;
-	//	v[1] += dy;
+
 		playerBlock.increment_y(dy);
 		if (playerBlock.y2 > 1030)
 		{
@@ -67,8 +67,7 @@ public:
 	//	if(gameLayout.checkVerticalCollision(v))
 		if (playerBlock.y1 < 100)
 		{
-			playerBlock.y1 = 100;
-		//	v[1] = 100;
+			playerBlock.setY(100, 150);
 			initial_velocity_vertical = 0;
 			if (!canJump)
 			{

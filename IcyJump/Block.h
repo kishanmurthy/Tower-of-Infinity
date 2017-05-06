@@ -55,4 +55,20 @@ public:
 		x2 = xm + size;
 		y2 = ym + size;
 	}
+	
+	void setX(float x1, float x2)
+	{
+		this->x1 = x1;
+		this->x2 = x2;
+		xm = (x1 + x2) / 2;
+		
+	}
+
+	void setY(float y1, float y2)
+{
+		this->y1 = y1;
+		this->y2 = y2;
+		ym = (y1 + y2) / 2;
+
+	}
 };
