@@ -18,8 +18,11 @@ public:
 	bool canJump;
 	bool jumpFinish;
 	GameLayout gameLayout;
+	
 	Player(GameLayout &gameLayout) {
+		
 		this->gameLayout = gameLayout;
+		player.setAttrib(200, 100, 250, 150);
 		v[0] = 200;
 		v[1] = 100;
 		initial_velocity_horizontal = 0;
