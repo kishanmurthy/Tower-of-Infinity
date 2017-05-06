@@ -79,12 +79,13 @@ class GameLayout {
 
 	}
 
-	bool checkVerticalCollision(float *v)
+	bool checkVerticalCollision(const Block &playerBlock)
 	{
 		for (vector<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
 		{
-			if (v[0] >= (*blockIterator).x1 && v[0] <= (*blockIterator).x2 && v[1] >= (*blockIterator).y1 && v[1] <= (*blockIterator).y2)
-				return true;
+			if (playerBlock.x1 >= (*blockIterator).x1 && playerBlock.x2 <= (*blockIterator).x2)  
+				if(playerBlock.y1 <= (*blockIterator).y2 && playerBlock.y2 >= (*blockIterator).y1)
+					return true;
 			
 		}
 		return false;

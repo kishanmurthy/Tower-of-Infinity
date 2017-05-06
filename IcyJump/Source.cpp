@@ -20,7 +20,6 @@ void render()
 	gameLayout.draw_layout();
 	
 	glColor3f(0,0.5,0.7);
-	//glRectf(player.v[0], player.v[1], player.v[0]+50, player.v[1]+50);
 	glRectf(player.playerBlock.x1, player.playerBlock.y1, player.playerBlock.x2, player.playerBlock.y2);
 	glFlush();
 }

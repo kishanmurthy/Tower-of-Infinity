@@ -56,7 +56,7 @@ public:
 	}
 	void move_vertical(float dy)
 	{
-
+		
 		playerBlock.increment_y(dy);
 		if (playerBlock.y2 > 1030)
 		{
@@ -64,16 +64,19 @@ public:
 			initial_velocity_vertical = 0;
 
 		}
-	//	if(gameLayout.checkVerticalCollision(v))
-		if (playerBlock.y1 < 100)
+		if (gameLayout.checkVerticalCollision(playerBlock))
 		{
-			playerBlock.setY(100, 150);
-			initial_velocity_vertical = 0;
-			if (!canJump)
+	//		if (playerBlock.y1 < 100)
 			{
-				canJump = true;
-				jumpFinish = 1;
+				playerBlock.setY(100, 150);
+				initial_velocity_vertical = 0;
+				if (!canJump)
+				{
+					canJump = true;
+					jumpFinish = 1;
+				}
 			}
+		//	else cout << "Collsion detected" << endl;
 		}
 	}
 	void move_object()
