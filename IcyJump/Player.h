@@ -1,9 +1,12 @@
 #pragma once
+#include "GameLayout.h"
+#include "Block.h"
 #define TIMESTEP 1.0/60.0
 class Player
 {
 public:
-	float v[2] = { 0,0 };
+	Block player;
+	float v[2] ;
 	float initial_velocity_horizontal;
 	float velocity_horizontal;
 	float initial_velocity_vertical;
@@ -14,8 +17,11 @@ public:
 	float displacement_y;
 	bool canJump;
 	bool jumpFinish;
-	Player() {
-		v[0] = v[1] = 0;
+	GameLayout gameLayout;
+	Player(GameLayout &gameLayout) {
+		this->gameLayout = gameLayout;
+		v[0] = 200;
+		v[1] = 100;
 		initial_velocity_horizontal = 0;
 		velocity_horizontal = 0;
 		initial_velocity_vertical = 0;
@@ -45,6 +51,7 @@ public:
 	}
 	void move_vertical(float *v, float dy)
 	{
+		cout << v[1] << endl;
 		v[1] += dy;
 		if (v[1] > 1030)
 		{
@@ -52,9 +59,10 @@ public:
 			initial_velocity_vertical = 0;
 
 		}
-		if (v[1] < 70)
+		if(gameLayout.checkVerticalCollision(v))
+	//	if (v[1] < 100)
 		{
-			v[1] = 70;
+			v[1] = 100;
 			initial_velocity_vertical = 0;
 			if (!canJump)
 			{

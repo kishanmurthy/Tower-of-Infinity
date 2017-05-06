@@ -26,5 +26,11 @@
     <ClInclude Include="KeyboardBuffer.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="GameLayout.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

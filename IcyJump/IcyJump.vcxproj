@@ -142,6 +142,8 @@
     <ClCompile Include="Source.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Block.h" />
+    <ClInclude Include="GameLayout.h" />
     <ClInclude Include="KeyboardBuffer.h" />
     <ClInclude Include="Player.h" />
   </ItemGroup>
