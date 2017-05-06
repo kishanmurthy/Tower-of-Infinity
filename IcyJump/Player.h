@@ -66,9 +66,15 @@ public:
 		}
 		if (gameLayout.checkVerticalCollision(playerBlock))
 		{
-	//		if (playerBlock.y1 < 100)
+//	if (playerBlock.y1 < 100)
 			{
-				playerBlock.setY(100, 150);
+				float collisionValue = gameLayout.getCollisionValue();
+				if(gameLayout.isCollisionAtTop())
+					playerBlock.setY(collisionValue-50, collisionValue);
+				else if (gameLayout.isCollisionAtBottom())
+					playerBlock.setY(collisionValue, collisionValue+50);
+
+				
 				initial_velocity_vertical = 0;
 				if (!canJump)
 				{

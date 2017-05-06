@@ -31,7 +31,7 @@ void timmer(int x)
 		
 		if (player.canJump)
 		{
-			player.acceleration_vertical = 100000;
+			player.acceleration_vertical = 120000;
 			
 		}
 		else
@@ -83,7 +83,7 @@ void timmer(int x)
 	player.compute_displacement();
 	player.move_object();
 
-	if (player.acceleration_vertical == 100000)
+	if (player.acceleration_vertical == 120000)
 	{
 		player.canJump = false;
 		player.acceleration_horizontal = 0;

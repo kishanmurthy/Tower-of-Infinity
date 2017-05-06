@@ -7,11 +7,14 @@ using namespace std;
 class GameLayout {
 	public:
 	vector<Block> block;
+	float collisionValue;
+	int collisionAxis = 0;
 
 	GameLayout()
 	{
 		block.push_back(Block(200, 50, 1720, 100));
 		block.push_back(Block(200, 300, 800, 350));
+		block.push_back(Block(800, 500, 1720, 550));
 	}
 
 
@@ -84,11 +87,40 @@ class GameLayout {
 		for (vector<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
 		{
 			if (playerBlock.x1 >= (*blockIterator).x1 && playerBlock.x2 <= (*blockIterator).x2)  
-				if(playerBlock.y1 <= (*blockIterator).y2 && playerBlock.y2 >= (*blockIterator).y1)
+				if (playerBlock.y1 <= (*blockIterator).y2 && playerBlock.y2 >= (*blockIterator).y1)
+				{
+					if (playerBlock.y1 > (*blockIterator).y1)
+					{
+						collisionValue = (*blockIterator).y2;
+						collisionAxis = 2;
+					}
+					if (playerBlock.y2 < (*blockIterator).y2)
+					{
+						collisionValue = (*blockIterator).y1;
+						collisionAxis = 1;
+					}
+					
 					return true;
-			
+				}
 		}
 		return false;
 	}
 
+	float getCollisionValue()
+	{
+		return collisionValue;
+	}
+
+	bool isCollisionAtTop()
+	{
+		if (collisionAxis == 1)
+			return true;
+		return false;
+	}
+	bool isCollisionAtBottom()
+	{
+		if (collisionAxis == 2)
+			return true;
+		return false;
+	}
 };
