@@ -8,11 +8,62 @@ using namespace std;
 
 Player player;
 bool KeyboardBuffer::keys[4] = { false };
+
+void draw_layout()
+{
+	glBegin(GL_POLYGON);
+	glColor3f(0.7, 0.7, 0.7);
+	glVertex2f(0, 0);
+	glVertex2f(0, 1080);
+	glColor3f(1, 1, 1);
+	glVertex2f(100, 1080);
+	glVertex2f(100, 0);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex2f(100, 0);
+	glVertex2f(100, 1080);
+	glColor3f(0.7, 0.7, 0.7);
+	glVertex2f(200, 1080);
+	glVertex2f(200, 0);
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glColor3f(0.7, 0.7, 0.7);
+	glVertex2f(1920, 0);
+	glVertex2f(1920, 1080);
+	glColor3f(1, 1, 1);
+	glVertex2f(1820, 1080);
+	glVertex2f(1820, 0);
+	glEnd();
+	glBegin(GL_POLYGON);
+	glColor3f(1, 1, 1);
+	glVertex2f(1820, 0);
+	glVertex2f(1820, 1080);
+	glColor3f(0.7, 0.7, 0.7);
+	glVertex2f(1720, 1080);
+	glVertex2f(1720, 0);
+	glEnd();
+
+	glBegin(GL_POLYGON);
+	glColor3f(0.7, 0.7, 0.7);
+	glVertex2f(205, 0);
+	glVertex2f(1715, 0);
+	glColor3f(0.8, 0.8, 0.8);
+	glVertex2f(1715, 70);
+	glVertex2f(205, 70);
+	glEnd();
+
+}
+
 void render()
 {
 	glClearColor(0,0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glColor3f(0.5, 0.5, 0);
+	
+	draw_layout();
+	
+	glColor3f(0,0.5,0.7);
 	glRectf(player.v[0], player.v[1], player.v[0]+50, player.v[1]+50);
 	glFlush();
 }

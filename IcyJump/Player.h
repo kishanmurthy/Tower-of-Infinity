@@ -30,15 +30,15 @@ public:
 	void move_horizontal(float *v, float dx)
 	{
 		v[0] += dx;
-		if (v[0] > 1870)
+		if (v[0] > 1670)
 		{
-			v[0] = 1870;
+			v[0] = 1670;
 			initial_velocity_horizontal = 0;
 
 		}
-		if (v[0] < 0)
+		if (v[0] < 200)
 		{
-			v[0] = 0;
+			v[0] = 200;
 			initial_velocity_horizontal = 0;
 
 		}
@@ -52,9 +52,9 @@ public:
 			initial_velocity_vertical = 0;
 
 		}
-		if (v[1] < 0)
+		if (v[1] < 70)
 		{
-			v[1] = 0;
+			v[1] = 70;
 			initial_velocity_vertical = 0;
 			if (!canJump)
 			{
