@@ -5,7 +5,7 @@
 class Player
 {
 public:
-	Block player;
+	Block playerBlock;
 	float v[2] ;
 	float initial_velocity_horizontal;
 	float velocity_horizontal;
@@ -22,7 +22,7 @@ public:
 	Player(GameLayout &gameLayout) {
 		
 		this->gameLayout = gameLayout;
-		player.setAttrib(200, 100, 250, 150);
+		playerBlock.setAttrib(200, 100, 250, 150);
 		v[0] = 200;
 		v[1] = 100;
 		initial_velocity_horizontal = 0;
@@ -36,36 +36,39 @@ public:
 		canJump = true;
 		jumpFinish = false;
 	}
-	void move_horizontal(float *v, float dx)
+	void move_horizontal(float dx)
 	{
-		v[0] += dx;
-		if (v[0] > 1670)
+		playerBlock.increment_x(dx);
+	//	v[0] += dx;
+		if (playerBlock.x1 > 1670)
 		{
-			v[0] = 1670;
+			playerBlock.x1 = 1670;
 			initial_velocity_horizontal = 0;
 
 		}
-		if (v[0] < 200)
+		if (playerBlock.x1 < 200)
 		{
-			v[0] = 200;
+			playerBlock.x1 = 200;
 			initial_velocity_horizontal = 0;
 
 		}
 	}
-	void move_vertical(float *v, float dy)
+	void move_vertical(float dy)
 	{
 		cout << v[1] << endl;
-		v[1] += dy;
-		if (v[1] > 1030)
+	//	v[1] += dy;
+		playerBlock.increment_y(dy);
+		if (playerBlock.y2 > 1030)
 		{
-			v[1] = 1030;
+			playerBlock.y2 = 1030;
 			initial_velocity_vertical = 0;
 
 		}
-		if(gameLayout.checkVerticalCollision(v))
-	//	if (v[1] < 100)
+	//	if(gameLayout.checkVerticalCollision(v))
+		if (playerBlock.y1 < 100)
 		{
-			v[1] = 100;
+			playerBlock.y1 = 100;
+		//	v[1] = 100;
 			initial_velocity_vertical = 0;
 			if (!canJump)
 			{
@@ -77,8 +80,8 @@ public:
 	void move_object()
 	{
 
-		move_vertical(v, displacement_y);
-		move_horizontal(v, displacement_x);
+		move_vertical(displacement_y);
+		move_horizontal(displacement_x);
 
 	}
 
