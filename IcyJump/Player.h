@@ -68,16 +68,9 @@ public:
 	{
 		
 		playerBlock.increment_y(dy);
-		if (playerBlock.y2 > 1030)
-		{
-			playerBlock.y2 = 1030;
-			initial_velocity_vertical = 0;
 
-		}
 		if (gameLayout.checkVerticalCollision(playerBlock))
 		{
-//	if (playerBlock.y1 < 100)
-			{
 				float collisionValue = gameLayout.getCollisionValue();
 				if(gameLayout.isCollisionAtTop())
 					playerBlock.setY(collisionValue-50, collisionValue);
@@ -91,8 +84,8 @@ public:
 					canJump = true;
 					jumpFinish = 1;
 				}
-			}
-		//	else cout << "Collsion detected" << endl;
+			
+
 		}
 	}
 	void move_object()

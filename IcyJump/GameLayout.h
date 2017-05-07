@@ -15,6 +15,7 @@ class GameLayout {
 		block.push_back(Block(200, 50, 1720, 100));
 		block.push_back(Block(200, 300, 800, 350));
 		block.push_back(Block(800, 500, 1720, 550));
+		block.push_back(Block(200, 700, 700, 750));
 	}
 
 
