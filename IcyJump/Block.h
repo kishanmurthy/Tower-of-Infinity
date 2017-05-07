@@ -65,10 +65,20 @@ public:
 	}
 
 	void setY(float y1, float y2)
-{
+	{
 		this->y1 = y1;
 		this->y2 = y2;
 		ym = (y1 + y2) / 2;
 
 	}
+
+	float getXdiff()
+	{
+		return x2 - x1;
+	}
+	float getYdiff()
+	{
+		return y2 - y1;
+	}
+
 };

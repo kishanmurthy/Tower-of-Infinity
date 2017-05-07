@@ -82,11 +82,12 @@ class GameLayout {
 
 	}
 
-	bool checkVerticalCollision(const Block &playerBlock)
+	bool checkVerticalCollision(Block &playerBlock)
 	{
+		
 		for (vector<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
 		{
-			if (playerBlock.x1 >= (*blockIterator).x1 && playerBlock.x2 <= (*blockIterator).x2)  
+			if (playerBlock.x1 > ( (*blockIterator).x1 - playerBlock.getXdiff()) && playerBlock.x2 < ((*blockIterator).x2 + playerBlock.getXdiff()))
 				if (playerBlock.y1 <= (*blockIterator).y2 && playerBlock.y2 >= (*blockIterator).y1)
 				{
 					if (playerBlock.y1 > (*blockIterator).y1)
@@ -100,6 +101,30 @@ class GameLayout {
 						collisionAxis = 1;
 					}
 					
+					return true;
+				}
+		}
+		return false;
+	}
+	bool checkHorizontalCollision(Block &playerBlock)
+	{
+
+		for (vector<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
+		{
+			if (playerBlock.y1 > ((*blockIterator).y1 - playerBlock.getYdiff()) && playerBlock.y2 < ((*blockIterator).y2 + playerBlock.getYdiff()))
+				if (playerBlock.x1 <= (*blockIterator).x2 && playerBlock.x2 >= (*blockIterator).x1)
+				{
+					if (playerBlock.x1 > (*blockIterator).x1)
+					{
+						collisionValue = (*blockIterator).x2;
+						collisionAxis = 3;
+					}
+					if (playerBlock.x2 < (*blockIterator).x2)
+					{
+						collisionValue = (*blockIterator).x1;
+						collisionAxis = 4;
+					}
+
 					return true;
 				}
 		}
@@ -123,4 +148,18 @@ class GameLayout {
 			return true;
 		return false;
 	}
+
+	bool isCollisionAtLeft()
+	{
+		if (collisionAxis == 3)
+			return true;
+		return false;
+	}
+	bool isCollisionAtRight()
+	{
+		if (collisionAxis == 4)
+			return true;
+		return false;
+	}
+
 };

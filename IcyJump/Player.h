@@ -53,6 +53,16 @@ public:
 			initial_velocity_horizontal = 0;
 
 		}
+
+		if (gameLayout.checkHorizontalCollision(playerBlock))
+		{
+			float collisionValue = gameLayout.getCollisionValue();
+			if (gameLayout.isCollisionAtLeft())
+				playerBlock.setX(collisionValue, collisionValue + 50);
+			else if (gameLayout.isCollisionAtRight())
+				playerBlock.setX(collisionValue - 50, collisionValue);
+			initial_velocity_horizontal = 0;
+		}
 	}
 	void move_vertical(float dy)
 	{
