@@ -162,5 +162,11 @@ class GameLayout {
 			return true;
 		return false;
 	}
-
+	void decrementAllBlocks(float value)
+	{
+		for (vector<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
+		{
+			blockIterator->increment_y(value*-1);
+		}
+	}
 };

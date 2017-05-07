@@ -2,6 +2,7 @@
 #include "GameLayout.h"
 #include "Block.h"
 #define TIMESTEP 1.0/60.0
+#define PLAYERTHRESHOLD 800
 class Player
 {
 public:
@@ -18,12 +19,12 @@ public:
 	bool canJump;
 	bool jumpFinish;
 	GameLayout gameLayout;
-	
+
 	Player(GameLayout &gameLayout) {
-		
+
 		this->gameLayout = gameLayout;
 		playerBlock.setAttrib(200, 100, 250, 150);
-	
+
 		initial_velocity_horizontal = 0;
 		velocity_horizontal = 0;
 		initial_velocity_vertical = 0;
@@ -42,7 +43,7 @@ public:
 		if (playerBlock.x1 > 1670)
 		{
 			playerBlock.setX(1670, 1720);
-	
+
 			initial_velocity_horizontal = 0;
 
 		}
@@ -66,25 +67,25 @@ public:
 	}
 	void move_vertical(float dy)
 	{
-		
+
 		playerBlock.increment_y(dy);
 
 		if (gameLayout.checkVerticalCollision(playerBlock))
 		{
-				float collisionValue = gameLayout.getCollisionValue();
-				if(gameLayout.isCollisionAtTop())
-					playerBlock.setY(collisionValue-50, collisionValue);
-				else if (gameLayout.isCollisionAtBottom())
-					playerBlock.setY(collisionValue, collisionValue+50);
+			float collisionValue = gameLayout.getCollisionValue();
+			if (gameLayout.isCollisionAtTop())
+				playerBlock.setY(collisionValue - 50, collisionValue);
+			else if (gameLayout.isCollisionAtBottom())
+				playerBlock.setY(collisionValue, collisionValue + 50);
 
-				
-				initial_velocity_vertical = 0;
-				if (!canJump)
-				{
-					canJump = true;
-					jumpFinish = 1;
-				}
-			
+
+			initial_velocity_vertical = 0;
+			if (!canJump)
+			{
+				canJump = true;
+				jumpFinish = 1;
+			}
+
 
 		}
 	}
@@ -99,7 +100,7 @@ public:
 	void compute_velocity()
 	{
 		velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
-		if ((velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP)> 2000)
+		if ((velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP) > 2000)
 			velocity_horizontal = 2000;
 
 	}
@@ -113,5 +114,26 @@ public:
 		initial_velocity_vertical = velocity_vertical;
 	}
 
+	bool checkThreshold()
+	{
+		if (playerBlock.ym > PLAYERTHRESHOLD)
+			return true;
+		return false;
+	}
+	float getDecrementValue()
+	{
+		return playerBlock.ym - PLAYERTHRESHOLD;
+	}
 
+	void decrementPlayerBlock(float value)
+	{
+		playerBlock.increment_y(value*-1);
+	}
+ 
+	void decrementAllObjects()
+	{
+		float decrementValue = getDecrementValue();
+		decrementPlayerBlock(decrementValue);
+		gameLayout.decrementAllBlocks(decrementValue);
+	}
 };

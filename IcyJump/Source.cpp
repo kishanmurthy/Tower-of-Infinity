@@ -17,7 +17,7 @@ void render()
 {
 	glClearColor(0,0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
-	gameLayout.draw_layout();
+	player.gameLayout.draw_layout();
 	
 	glColor3f(0,0.5,0.7);
 	glRectf(player.playerBlock.x1, player.playerBlock.y1, player.playerBlock.x2, player.playerBlock.y2);
@@ -89,6 +89,13 @@ void timmer(int x)
 		player.acceleration_horizontal = 0;
 
 	}
+	if (player.checkThreshold())
+	{
+		cout << "Threshold Reched" << endl;
+		player.decrementAllObjects();
+	}
+
+
 	glutPostRedisplay();
 	glutTimerFunc(1000 / FPS, timmer, 60);
 

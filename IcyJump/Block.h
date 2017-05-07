@@ -39,11 +39,13 @@ public:
 	{
 		x1 += x;
 		x2 += x;
+		xm = (x1 + x2) / 2;
 	}
 	void increment_y(float y)
 	{
 		y1 += y;
 		y2 += y;
+		ym = (y1 + y2) / 2;
 	}
 
 	void setBlock(float xm, float ym,float size)
