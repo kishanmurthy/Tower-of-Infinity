@@ -94,7 +94,10 @@ void timmer(int x)
 		cout << "Threshold Reched" << endl;
 		player.decrementAllObjects();
 	}
-
+	if (player.getAutoDecrement())
+	{
+		player.decrementAllObjects(1);
+	}
 
 	glutPostRedisplay();
 	glutTimerFunc(1000 / FPS, timmer, 60);

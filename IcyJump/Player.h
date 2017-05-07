@@ -7,7 +7,6 @@ class Player
 {
 public:
 	Block playerBlock;
-
 	float initial_velocity_horizontal;
 	float velocity_horizontal;
 	float initial_velocity_vertical;
@@ -19,6 +18,7 @@ public:
 	bool canJump;
 	bool jumpFinish;
 	GameLayout gameLayout;
+	bool autoDecrement = false;
 
 	Player(GameLayout &gameLayout) {
 
@@ -117,6 +117,16 @@ public:
 	bool checkThreshold()
 	{
 		if (playerBlock.ym > PLAYERTHRESHOLD)
+		{
+			autoDecrement = true;
+			return true;
+		}
+		return false;
+	}
+
+	bool getAutoDecrement()
+	{
+		if (autoDecrement)
 			return true;
 		return false;
 	}
@@ -136,4 +146,12 @@ public:
 		decrementPlayerBlock(decrementValue);
 		gameLayout.decrementAllBlocks(decrementValue);
 	}
+
+	void decrementAllObjects(float decrementValue)
+	{
+
+		decrementPlayerBlock(decrementValue);
+		gameLayout.decrementAllBlocks(decrementValue);
+	}
+
 };
