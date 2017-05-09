@@ -15,13 +15,14 @@ public:
 	float acceleration_vertical;
 	float displacement_x;
 	float displacement_y;
+	bool jump;
 	bool canJump;
 	bool jumpFinish;
 	GameLayout gameLayout;
 	bool autoDecrement = false;
 
 	Player(GameLayout &gameLayout) {
-
+		
 		this->gameLayout = gameLayout;
 		playerBlock.setAttrib(200, 100, 250, 150);
 
@@ -34,8 +35,10 @@ public:
 		displacement_x = 0;
 		displacement_y = 0;
 		canJump = true;
+		jump = false;
 		jumpFinish = false;
 	}
+	
 	void move_horizontal(float dx)
 	{
 		playerBlock.increment_x(dx);
@@ -43,16 +46,12 @@ public:
 		if (playerBlock.x1 > 1670)
 		{
 			playerBlock.setX(1670, 1720);
-
 			initial_velocity_horizontal = 0;
-
 		}
 		if (playerBlock.x1 < 200)
 		{
 			playerBlock.setX(200, 250);
-
 			initial_velocity_horizontal = 0;
-
 		}
 
 		if (gameLayout.checkHorizontalCollision(playerBlock))
@@ -65,11 +64,10 @@ public:
 			initial_velocity_horizontal = 0;
 		}
 	}
+
 	void move_vertical(float dy)
 	{
-
 		playerBlock.increment_y(dy);
-
 		if (gameLayout.checkVerticalCollision(playerBlock))
 		{
 			float collisionValue = gameLayout.getCollisionValue();
@@ -78,23 +76,19 @@ public:
 			else if (gameLayout.isCollisionAtBottom())
 				playerBlock.setY(collisionValue, collisionValue + 50);
 
-
 			initial_velocity_vertical = 0;
-			if (!canJump)
+			if (jump)
 			{
+				jump = false;
 				canJump = true;
 				jumpFinish = 1;
 			}
-
-
 		}
 	}
 	void move_object()
 	{
-
 		move_vertical(displacement_y);
 		move_horizontal(displacement_x);
-
 	}
 
 	void compute_velocity()
@@ -102,16 +96,70 @@ public:
 		velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
 		if ((velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP) > 2000)
 			velocity_horizontal = 2000;
-
 	}
 
 	void compute_displacement()
 	{
-
 		displacement_x = (initial_velocity_horizontal *TIMESTEP) + 0.5 *acceleration_horizontal * TIMESTEP * TIMESTEP;
 		displacement_y = (initial_velocity_vertical * TIMESTEP) + 0.5 * acceleration_vertical * TIMESTEP *TIMESTEP;
 		initial_velocity_horizontal = velocity_horizontal;
 		initial_velocity_vertical = velocity_vertical;
+	}
+
+	void setAcceleration(bool keys[4])
+	{
+		if (keys[0])
+		{
+			if (!jump)
+				acceleration_vertical = 120000;
+			else
+				acceleration_vertical = -7500;
+		}
+		else
+			acceleration_vertical = -7500;
+
+		if (keys[2] && !jump)
+			acceleration_horizontal = -8000;
+		else if (keys[3] && !jump)
+			acceleration_horizontal = 8000;
+		else
+		{
+			if (jumpFinish)
+			{
+				if (initial_velocity_horizontal > 700 && !jump)
+					acceleration_horizontal = -100000;
+				else if (initial_velocity_horizontal < -700 && !jump)
+					acceleration_horizontal = 100000;
+				else if (!jump)
+				{
+					initial_velocity_horizontal = 0;
+					acceleration_horizontal = 0;
+				}
+				jumpFinish = false;
+			}
+			else
+			{
+				if (initial_velocity_horizontal > 100 && !jump)
+					acceleration_horizontal = -2000;
+				else if (initial_velocity_horizontal < -100 && !jump)
+					acceleration_horizontal = 2000;
+				else if (!jump)
+				{
+					initial_velocity_horizontal = 0;
+					acceleration_horizontal = 0;
+				}
+			}
+		}
+	}
+
+	void resetHorizontalAccelerationifJump()
+	{
+		if (acceleration_vertical == 120000)
+		{
+			jump = true;
+			canJump = false;
+			acceleration_horizontal = 0;
+		}
 	}
 
 	bool checkThreshold()
@@ -152,6 +200,13 @@ public:
 
 		decrementPlayerBlock(decrementValue);
 		gameLayout.decrementAllBlocks(decrementValue);
+	}
+
+	bool isOut()
+	{
+		if (playerBlock.y2 < 0)
+			return true;
+		return false;
 	}
 
 };

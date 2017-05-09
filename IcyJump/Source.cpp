@@ -18,7 +18,6 @@ void render()
 	glClearColor(0,0, 0, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	player.gameLayout.draw_layout();
-	
 	glColor3f(0,0.5,0.7);
 	glRectf(player.playerBlock.x1, player.playerBlock.y1, player.playerBlock.x2, player.playerBlock.y2);
 	glFlush();
@@ -26,78 +25,19 @@ void render()
 
 void timmer(int x)
 {
-	if (KeyboardBuffer::keys[0])
-	{
-		
-		if (player.canJump)
-		{
-			player.acceleration_vertical = 120000;
-			
-		}
-		else
-		{
-			player.acceleration_vertical = -5000;
-		}
-		
-	}
-	else
-	{
-		player.acceleration_vertical = -7500;
-		
-	}
-	if (KeyboardBuffer::keys[2] && player.canJump)
-	{
-		player.acceleration_horizontal = -8000;
-	}
-	else if (KeyboardBuffer::keys[3] && player.canJump)
-		player.acceleration_horizontal = 8000;
-	else
-	{
-		if (player.jumpFinish)
-		{
-			if (player.initial_velocity_horizontal > 700 && player.canJump)
-				player.acceleration_horizontal = -60000;
-			else if (player.initial_velocity_horizontal < -700 && player.canJump)
-				player.acceleration_horizontal = 60000;
-			else if (player.canJump)
-			{
-				player.initial_velocity_horizontal = 0;
-				player.acceleration_horizontal = 0;
-			}
-			player.jumpFinish = false;
-		}
-		else
-		{
-			if (player.initial_velocity_horizontal > 100 && player.canJump)
-				player.acceleration_horizontal = -2000;
-			else if (player.initial_velocity_horizontal < -100 && player.canJump)
-				player.acceleration_horizontal = 2000;
-			else if (player.canJump)
-			{
-				player.initial_velocity_horizontal = 0;
-				player.acceleration_horizontal = 0;
-			}
-		}
-	}
+	player.setAcceleration(KeyboardBuffer::keys);
 	player.compute_velocity();
 	player.compute_displacement();
 	player.move_object();
-
-	if (player.acceleration_vertical == 120000)
-	{
-		player.canJump = false;
-		player.acceleration_horizontal = 0;
-
-	}
+	player.resetHorizontalAccelerationifJump();
 	if (player.checkThreshold())
-	{
-		cout << "Threshold Reched" << endl;
 		player.decrementAllObjects();
-	}
+	
 	if (player.getAutoDecrement())
-	{
 		player.decrementAllObjects(1);
-	}
+	
+	if (player.isOut())
+		exit(0);
 
 	glutPostRedisplay();
 	glutTimerFunc(1000 / FPS, timmer, 60);
