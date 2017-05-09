@@ -1,17 +1,31 @@
 #pragma once
 #include<iostream>
 #include<vector>
+#include<list>
 #include<GL/glut.h>
 #include "Block.h"
 using namespace std;
 class GameLayout {
 	public:
-	vector<Block> block;
+	vector<Block> blockArray;
+	list<Block> block;
 	float collisionValue;
 	int collisionAxis = 0;
 
 	GameLayout()
 	{
+		blockArray.push_back(Block(200, 50, 1720, 100));
+		blockArray.push_back(Block(200, 300, 800, 350));
+		blockArray.push_back(Block(800, 500, 1720, 550));
+		blockArray.push_back(Block(200, 700, 800, 750));
+		blockArray.push_back(Block(800, 900, 1720, 950));
+		blockArray.push_back(Block(200, 1100, 800, 1150));
+		blockArray.push_back(Block(800, 1300, 1720, 1350));
+		blockArray.push_back(Block(200, 1500, 800, 1550));
+		blockArray.push_back(Block(800, 1700, 1720, 1750));
+
+
+
 		block.push_back(Block(200, 50, 1720, 100));
 		block.push_back(Block(200, 300, 800, 350));
 		block.push_back(Block(800, 500, 1720, 550));
@@ -66,7 +80,7 @@ class GameLayout {
 	{
 		float color1[3] = { 0.75, 0.75 ,0.75 };
 		float color2[3] = { 1,1,1 };
-		for (vector<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
+		for (list<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
 		{
 			draw_main_block(*blockIterator, color1, color2);
 		}
@@ -92,7 +106,7 @@ class GameLayout {
 	bool checkVerticalCollision(Block &playerBlock)
 	{
 		
-		for (vector<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
+		for (list<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
 		{
 			if (playerBlock.x1 > ( (*blockIterator).x1 - playerBlock.getXdiff()) && playerBlock.x2 < ((*blockIterator).x2 + playerBlock.getXdiff()))
 				if (playerBlock.y1 <= (*blockIterator).y2 && playerBlock.y2 >= (*blockIterator).y1)
@@ -116,7 +130,7 @@ class GameLayout {
 	bool checkHorizontalCollision(Block &playerBlock)
 	{
 
-		for (vector<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
+		for (list<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
 		{
 			if (playerBlock.y1 > ((*blockIterator).y1 - playerBlock.getYdiff()) && playerBlock.y2 < ((*blockIterator).y2 + playerBlock.getYdiff()))
 				if (playerBlock.x1 <= (*blockIterator).x2 && playerBlock.x2 >= (*blockIterator).x1)
@@ -170,7 +184,7 @@ class GameLayout {
 	}
 	void decrementAllBlocks(float value)
 	{
-		for (vector<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
+		for (list<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
 		{
 			blockIterator->increment_y(value*-1);
 		}
