@@ -102,15 +102,18 @@ class GameLayout {
 
 		glColor3fv(color1);
 		glRectf(x1, y1, x2, y2);
-		char str[3];
+		displayNumbers(block);
 		
-		itoa(block.blockNumber,str ,10);
+	}
+	void displayNumbers(Block &block)
+	{
+		char str[3];
+		itoa(block.blockNumber, str, 10);
 		glColor3f(1, 1, 0);
 		glRasterPos2f(block.xm, block.ym);
 
-		for(int i = 0; i < strlen(str); i++)
+		for (int i = 0; i < strlen(str); i++)
 			glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str[i]);
-		
 	}
 
 	void render_blocks()
