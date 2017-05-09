@@ -10,7 +10,7 @@ public:
 	{
 		if (c == 'w')
 			keys[0] = true;
-		else if (c == 's')
+		else if (c == 's' || c==' ')
 			keys[1] = true;
 		else if (c == 'a')
 			keys[2] = true;
@@ -21,7 +21,7 @@ public:
 	{
 		if (c == 'w')
 			keys[0] = false;
-		else if (c == 's')
+		else if (c == 's' || c == ' ')
 			keys[1] = false;
 		else if (c == 'a')
 			keys[2] = false;

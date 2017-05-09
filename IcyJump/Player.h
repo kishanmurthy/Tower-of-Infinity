@@ -1,4 +1,5 @@
 #pragma once
+#include<stdio.h>
 #include "GameLayout.h"
 #include "Block.h"
 #define TIMESTEP 1.0/60.0
@@ -16,7 +17,6 @@ public:
 	float displacement_x;
 	float displacement_y;
 	bool jump;
-	bool canJump;
 	bool jumpFinish;
 	GameLayout gameLayout;
 	bool autoDecrement = false;
@@ -34,7 +34,6 @@ public:
 		acceleration_vertical = 0;
 		displacement_x = 0;
 		displacement_y = 0;
-		canJump = true;
 		jump = false;
 		jumpFinish = false;
 	}
@@ -80,7 +79,6 @@ public:
 			if (jump)
 			{
 				jump = false;
-				canJump = true;
 				jumpFinish = 1;
 			}
 		}
@@ -94,8 +92,12 @@ public:
 	void compute_velocity()
 	{
 		velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
-		if ((velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP) > 2000)
+		velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP;
+		if (velocity_horizontal > 2000)
 			velocity_horizontal = 2000;
+		else if (velocity_horizontal < -2000)
+			velocity_horizontal = -2000;
+		//printf("Velocity horizontal:    %f\n", velocity_horizontal);
 	}
 
 	void compute_displacement()
@@ -113,19 +115,27 @@ public:
 			if (!jump)
 				acceleration_vertical = 120000;
 			else
-				acceleration_vertical = -7500;
+				acceleration_vertical = -6000; //Is set when the object is in jump state and up arrow pressed.
 		}
 		else
-			acceleration_vertical = -7500;
-
-		if (keys[2] && !jump)
+			acceleration_vertical = -6000; 
+		
+		if (keys[0] && keys[2] && !jump)
+			acceleration_horizontal = -55000;
+		else if (keys[0] & keys[3] && !jump)
+			acceleration_horizontal = 55000;
+		else if (keys[2] && !jump)
 			acceleration_horizontal = -8000;
 		else if (keys[3] && !jump)
 			acceleration_horizontal = 8000;
+
+		
+			
+		/*
 		else
 		{
-			if (jumpFinish)
-			{
+			if (keys[1])
+			{	//Damping when the block reaches ground
 				if (initial_velocity_horizontal > 700 && !jump)
 					acceleration_horizontal = -100000;
 				else if (initial_velocity_horizontal < -700 && !jump)
@@ -137,19 +147,22 @@ public:
 				}
 				jumpFinish = false;
 			}
-			else
-			{
+		*/
+
+		if (keys[1])
+			{	//normal retardation
 				if (initial_velocity_horizontal > 100 && !jump)
-					acceleration_horizontal = -2000;
+					acceleration_horizontal = -5000;
 				else if (initial_velocity_horizontal < -100 && !jump)
-					acceleration_horizontal = 2000;
+					acceleration_horizontal = 5000;
 				else if (!jump)
 				{
 					initial_velocity_horizontal = 0;
 					acceleration_horizontal = 0;
 				}
 			}
-		}
+		
+		
 	}
 
 	void resetHorizontalAccelerationifJump()
@@ -157,7 +170,6 @@ public:
 		if (acceleration_vertical == 120000)
 		{
 			jump = true;
-			canJump = false;
 			acceleration_horizontal = 0;
 		}
 	}

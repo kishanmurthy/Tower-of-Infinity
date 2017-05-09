@@ -9,7 +9,6 @@ using namespace std;
 
 GameLayout gameLayout;
 Player player(gameLayout);
-
 bool KeyboardBuffer::keys[4] = { false };
 
 
@@ -30,6 +29,7 @@ void timmer(int x)
 	player.compute_displacement();
 	player.move_object();
 	player.resetHorizontalAccelerationifJump();
+	
 	if (player.checkThreshold())
 		player.decrementAllObjects();
 	
