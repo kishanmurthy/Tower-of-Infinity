@@ -9,6 +9,8 @@ class GameLayout {
 	public:
 	vector<Block> blockArray;
 	list<Block> block;
+	int blockPushed=-1;
+	int blockPoped=-1;
 	float collisionValue;
 	int collisionAxis = 0;
 
@@ -24,18 +26,12 @@ class GameLayout {
 		blockArray.push_back(Block(200, 1500, 800, 1550));
 		blockArray.push_back(Block(800, 1700, 1720, 1750));
 
-
-
-		block.push_back(Block(200, 50, 1720, 100));
-		block.push_back(Block(200, 300, 800, 350));
-		block.push_back(Block(800, 500, 1720, 550));
-		block.push_back(Block(200, 700, 800, 750));
-		block.push_back(Block(800, 900, 1720, 950));
-		block.push_back(Block(200, 1100, 800, 1150));
-		block.push_back(Block(800, 1300, 1720, 1350));
-		block.push_back(Block(200, 1500, 800, 1550));
-		block.push_back(Block(800, 1700, 1720, 1750));
-
+		for (vector<Block>::iterator blockIterator = blockArray.begin(); blockPushed <6; blockIterator++ ,blockPushed++)
+		{
+			block.push_back(*blockIterator);
+			
+		}
+		
 	}
 
 
