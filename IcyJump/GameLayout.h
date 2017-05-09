@@ -1,7 +1,9 @@
 #pragma once
+#include<stdio.h>
 #include<iostream>
 #include<vector>
 #include<list>
+#include<string>
 #include<GL/glut.h>
 #include "Block.h"
 using namespace std;
@@ -13,28 +15,37 @@ class GameLayout {
 	int blockPoped=-1;
 	float collisionValue;
 	int collisionAxis = 0;
-
 	GameLayout()
 	{
-		blockArray.push_back(Block(200, 50, 1720, 100));
+		blockArray.push_back(Block(200, 50, 1720, 100)); 
 		blockArray.push_back(Block(200, 300, 1000, 350));
 		blockArray.push_back(Block(500, 500, 1720, 550));
 		blockArray.push_back(Block(200, 700, 800, 750));
 		blockArray.push_back(Block(700, 900, 1720, 950));
-		blockArray.push_back(Block(200, 1100, 1500, 1150));
+		blockArray.push_back(Block(200, 1100, 1400, 1150));
 		blockArray.push_back(Block(1000, 1300, 1720, 1350));
-		blockArray.push_back(Block(200, 1500, 1000, 1550));
-		blockArray.push_back(Block(800, 1700, 1720, 1750));
-		blockArray.push_back(Block(200, 1900, 1000, 1950));
-		blockArray.push_back(Block(800, 2100, 1720, 2150));
+		blockArray.push_back(Block(200, 1500, 600, 1550));
+		blockArray.push_back(Block(700, 1700, 1720, 1750));
+		blockArray.push_back(Block(200, 1900, 800, 1950));
+		blockArray.push_back(Block(900, 2100, 1720, 2150));
 		blockArray.push_back(Block(200, 2300, 1000, 2350));
 		blockArray.push_back(Block(800, 2500, 1720, 2550));
-		blockArray.push_back(Block(200, 2700, 1000, 2750));
+		blockArray.push_back(Block(200, 2700, 1400, 2750));
 		blockArray.push_back(Block(800, 2900, 1720, 2950));
-		blockArray.push_back(Block(200, 3100, 1000, 3150));
-		blockArray.push_back(Block(800, 3300, 1720, 3350));
-		blockArray.push_back(Block(200, 3500, 1000, 3550));
-		blockArray.push_back(Block(800, 3700, 1720, 3750));
+		blockArray.push_back(Block(200, 3100, 600, 3150));
+		blockArray.push_back(Block(1000, 3300, 1720, 3350));
+		blockArray.push_back(Block(200, 3500, 1400, 3550));
+		blockArray.push_back(Block(1500, 3700, 1720, 3750));
+		blockArray.push_back(Block(800, 3900, 1300, 3950));
+		blockArray.push_back(Block(200, 4100, 600, 4150));
+		blockArray.push_back(Block(800, 4300, 1720, 4350));
+		blockArray.push_back(Block(200, 4500, 1400, 4550));
+		blockArray.push_back(Block(500, 4700, 1000, 4750));
+		blockArray.push_back(Block(1000, 4900, 1720, 4950));
+		blockArray.push_back(Block(200, 5200, 800, 5250));
+		blockArray.push_back(Block(800, 5400, 1720, 5450));
+		blockArray.push_back(Block(200, 5600, 1500, 5650));
+		blockArray.push_back(Block(500, 5800, 1720, 5850));
 
 		for (vector<Block>::iterator blockIterator = blockArray.begin(); blockPushed <6; blockIterator++ ,blockPushed++)
 		{
@@ -46,12 +57,13 @@ class GameLayout {
 
 	void updateBlocks()
 	{
-		if(blockPushed < ( blockArray.capacity() - 1 ))
+		if(blockPushed < ( blockArray.size() - 1 ))
 			if (!isVisible())
 			{
 				block.push_back(blockArray.at(++blockPushed));
 				block.pop_front();
 				blockPoped++;
+			
 			}
 	}
 
@@ -90,6 +102,15 @@ class GameLayout {
 
 		glColor3fv(color1);
 		glRectf(x1, y1, x2, y2);
+		char str[3];
+		
+		itoa(block.blockNumber,str ,10);
+		glColor3f(1, 1, 0);
+		glRasterPos2f(block.xm, block.ym);
+
+		for(int i = 0; i < strlen(str); i++)
+			glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str[i]);
+		
 	}
 
 	void render_blocks()

@@ -8,6 +8,8 @@ public:
 	float y2;
 	float xm;
 	float ym;
+	static int count;
+	int blockNumber;
 	Block()
 	{
 		x1 = 0;
@@ -16,6 +18,7 @@ public:
 		y2 = 0;
 		xm = 0;
 		ym = 0;
+		blockNumber = count++;
 	}
 	Block(float x1, float y1, float x2, float y2)
 	{
@@ -25,6 +28,7 @@ public:
 		this->y2 = y2;
 		xm = (x1 + x2) / 2;
 		ym = (y1 + y2) / 2;
+		blockNumber = count++;
 	}
 	void setAttrib(float x1, float y1, float x2, float y2)
 	{

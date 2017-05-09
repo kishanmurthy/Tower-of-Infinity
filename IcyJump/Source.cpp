@@ -10,7 +10,7 @@ using namespace std;
 GameLayout gameLayout;
 Player player(gameLayout);
 bool KeyboardBuffer::keys[4] = { false };
-
+int Block::count;
 
 void render()
 {
@@ -35,7 +35,7 @@ void timmer(int x)
 		player.decrementAllObjects();
 	
 	if (player.getAutoDecrement())
-		player.decrementAllObjects(1);
+		 //player.decrementAllObjects(1);
 	
 	if (player.isOut())
 		exit(0);
