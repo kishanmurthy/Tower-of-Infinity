@@ -30,6 +30,7 @@ void timmer(int x)
 	player.move_object();
 	player.resetHorizontalAccelerationifJump();
 	
+	player.gameLayout.updateBlocks();
 	if (player.checkThreshold())
 		player.decrementAllObjects();
 	

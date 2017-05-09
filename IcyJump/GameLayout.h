@@ -17,14 +17,24 @@ class GameLayout {
 	GameLayout()
 	{
 		blockArray.push_back(Block(200, 50, 1720, 100));
-		blockArray.push_back(Block(200, 300, 800, 350));
-		blockArray.push_back(Block(800, 500, 1720, 550));
+		blockArray.push_back(Block(200, 300, 1000, 350));
+		blockArray.push_back(Block(500, 500, 1720, 550));
 		blockArray.push_back(Block(200, 700, 800, 750));
-		blockArray.push_back(Block(800, 900, 1720, 950));
-		blockArray.push_back(Block(200, 1100, 800, 1150));
-		blockArray.push_back(Block(800, 1300, 1720, 1350));
-		blockArray.push_back(Block(200, 1500, 800, 1550));
+		blockArray.push_back(Block(700, 900, 1720, 950));
+		blockArray.push_back(Block(200, 1100, 1500, 1150));
+		blockArray.push_back(Block(1000, 1300, 1720, 1350));
+		blockArray.push_back(Block(200, 1500, 1000, 1550));
 		blockArray.push_back(Block(800, 1700, 1720, 1750));
+		blockArray.push_back(Block(200, 1900, 1000, 1950));
+		blockArray.push_back(Block(800, 2100, 1720, 2150));
+		blockArray.push_back(Block(200, 2300, 1000, 2350));
+		blockArray.push_back(Block(800, 2500, 1720, 2550));
+		blockArray.push_back(Block(200, 2700, 1000, 2750));
+		blockArray.push_back(Block(800, 2900, 1720, 2950));
+		blockArray.push_back(Block(200, 3100, 1000, 3150));
+		blockArray.push_back(Block(800, 3300, 1720, 3350));
+		blockArray.push_back(Block(200, 3500, 1000, 3550));
+		blockArray.push_back(Block(800, 3700, 1720, 3750));
 
 		for (vector<Block>::iterator blockIterator = blockArray.begin(); blockPushed <6; blockIterator++ ,blockPushed++)
 		{
@@ -34,6 +44,16 @@ class GameLayout {
 		
 	}
 
+	void updateBlocks()
+	{
+		if(blockPushed < ( blockArray.capacity() - 1 ))
+			if (!isVisible())
+			{
+				block.push_back(blockArray.at(++blockPushed));
+				block.pop_front();
+				blockPoped++;
+			}
+	}
 
 	void draw_side_block(float *point1, float *point2, float *color1, float *color2)
 	{
@@ -184,7 +204,18 @@ class GameLayout {
 		{
 			blockIterator->increment_y(value*-1);
 		}
-	}
+		for (vector<Block>::iterator blockIterator = blockArray.begin(); blockIterator != blockArray.end(); blockIterator++)
+		{
+			blockIterator->increment_y(value*-1);
+		}
 
+	}
+	
+	bool isVisible()
+	{
+		if (block.front().y2 < -10)
+			return false;
+		return true;
+	}
 
 };
