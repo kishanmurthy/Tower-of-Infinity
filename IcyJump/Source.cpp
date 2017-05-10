@@ -14,11 +14,25 @@ int Block::count;
 
 void render()
 {
-	glClearColor(0,0, 0, 1);
+	glClearColor(230.0/255, 255.0 / 255, 240.0 / 255, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	player.gameLayout.draw_layout();
-	glColor3f(0,0.5,0.7);
+	glColor3f(233 / 255.0, 229 / 255.0, 129 / 255.0);
 	glRectf(player.playerBlock.x1, player.playerBlock.y1, player.playerBlock.x2, player.playerBlock.y2);
+	glColor3f(0, 0, 0);
+	glLineWidth(2);
+	glBegin(GL_LINE_STRIP);
+	glVertex2f(player.playerBlock.x1, player.playerBlock.y1);
+	glVertex2f(player.playerBlock.x1, player.playerBlock.y2);
+	glVertex2f(player.playerBlock.x2, player.playerBlock.y2);
+	glVertex2f(player.playerBlock.x2, player.playerBlock.y1);
+	glVertex2f(player.playerBlock.x1, player.playerBlock.y1);
+	glVertex2f((player.playerBlock.x1 +player.playerBlock.x2)/2, player.playerBlock.y2);
+	glVertex2f(player.playerBlock.x2, player.playerBlock.y1);
+	glVertex2f(player.playerBlock.x2, player.playerBlock.y2);
+	glVertex2f((player.playerBlock.x1 + player.playerBlock.x2) / 2, player.playerBlock.y1);
+	glVertex2f(player.playerBlock.x1, player.playerBlock.y2);
+	glEnd();
 	glFlush();
 }
 

@@ -87,34 +87,53 @@ class GameLayout {
 
 	void draw_main_block(Block &block, float *color1, float *color2)
 	{
-		glColor3fv(color2);
-		glRectf(block.x1, block.y1,block.x2,block.y2);
-
-		float x1 = (block.x1 + (block.x2 - block.x1)*0.01);
-		float y1 = (block.y1 + (block.y2 - block.y1)*0.1);
-		float x2 = (block.x2 - (block.x2 - block.x1)*0.01);
-		float y2 = (block.y2 - (block.y2 - block.y1)*0.1);
-
-		glColor3fv(color1);
-		glRectf(x1, y1, x2, y2);
-		displayNumbers(block);
+		glColor3f(0, 0, 0);
+		glLineWidth(4);
+		glBegin(GL_LINE_LOOP);
+		glVertex2f(block.x2, block.y2);
+		glVertex2f(block.x1, block.y2);
+		glVertex2f(block.x1, block.y1);
+		glVertex2f(block.x2, block.y1);
+		glEnd();
+		glBegin(GL_POLYGON);
+			glColor3fv(color2);
+			glVertex2f(block.x2, block.y2);
+			glVertex2f(block.x1, block.y2);
+			glColor3fv(color1);
+			glVertex2f(block.x1, block.y1);
+			glVertex2f(block.x2, block.y1);
+			glEnd();
+		
+		if(block.blockNumber%10==0)
+			displayNumbers(block);
 		
 	}
 	void displayNumbers(Block &block)
 	{
+		glColor3f(233 / 255.0, 229 / 255.0, 129 / 255.0);
+		glRectf(block.xm-15, block.ym-15, block.xm+20, block.ym+15);
+		glColor3f(0, 0, 0);
+		glLineWidth(4);
+		glBegin(GL_LINE_LOOP);
+		glVertex2f(block.xm-15, block.ym - 15);
+		glVertex2f(block.xm - 15, block.ym +15);
+		glVertex2f(block.xm +20, block.ym +15);
+		glVertex2f(block.xm +20, block.ym - 15);
+		glEnd();
 		char str[5];
 		itoa(block.blockNumber, str, 10);
-		glColor3f(1, 1, 0);
-		glRasterPos2f(block.xm, block.ym);
+		glColor3f(0, 0, 0);
+		glRasterPos2f(block.xm-10, block.ym-10);
 
 		for (int i = 0; i < strlen(str); i++)
-			glutBitmapCharacter(GLUT_BITMAP_9_BY_15, str[i]);
+			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str[i]);
 	}
 
 	void render_blocks()
 	{
-		float color1[3] = { 0.75, 0.75 ,0.75 };
-		float color2[3] = { 1,1,1 };
+		float color1[3] = { 44/255.0,36 / 255.0,22 / 255.0 };
+		float color2[3] = { 186 / 255.0,163 / 255.0,120 / 255.0 };
+	
 		for (list<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)
 		{
 			draw_main_block(*blockIterator, color1, color2);
@@ -126,8 +145,11 @@ class GameLayout {
 	{
 		float point1[2] = { 0,0 };
 		float point2[2] = { 200,1080 };
-		float color1[3] = { 0.75, 0.75 ,0.75 };
-		float color2[3] = { 1,1,1 };
+		float color1[3] = { 56/255.0,46 / 255.0,28 / 255.0 };
+		//float color2[3] = { 128 / 255.0,0 / 255.0,0 / 255.0 };
+		float color2[3] = { 186 /255.0,163 / 255.0,120 / 255.0 };
+		//float color1[3] = { 0.75, 0.75 ,0.75 };
+		//float color2[3] = { 1,1,1 };
 		draw_side_block(point1, point2, color1, color2);
 		
 		float point3[2] = { 1720,0 };
@@ -135,7 +157,41 @@ class GameLayout {
 		draw_side_block(point3, point4, color1, color2);
 
 		render_blocks();
+		display_score();
+	}
 
+	void display_score()
+	{
+		glColor3f(233/255.0, 229/255.0, 129/255.0);
+		glRectf(1750, 980, 1920, 1080);
+		
+		glColor3f(0, 0, 0);
+		glLineWidth(5);
+		glBegin(GL_LINE_LOOP);
+			glVertex2f(1750, 1080);
+			glVertex2f(1750, 980);
+			glVertex2f(1920,980);
+			glVertex2f(1920, 1080);
+			
+		glEnd();
+
+
+		
+		char score[] ="Score";
+		glRasterPos2f(1800, 1050);
+		for (int i = 0; i < strlen(score); i++)
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, score[i]);
+		
+		char str[5];
+		if(blockPoped<=0)
+			itoa(0, str, 10);
+		else
+			itoa(blockPoped*10, str, 10);
+	
+		glRasterPos2f(1820, 1000);
+
+		for (int i = 0; i < strlen(str); i++)
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
 	}
 
 	bool checkVerticalCollision(Block &playerBlock)
