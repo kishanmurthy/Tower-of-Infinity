@@ -4,6 +4,7 @@
 #include<vector>
 #include<list>
 #include<string>
+#include<cmath>
 #include<GL/glut.h>
 #include "Block.h"
 using namespace std;
@@ -24,7 +25,7 @@ class GameLayout {
 		blockArray.push_back(Block(700, 900, 1720, 950));
 		blockArray.push_back(Block(200, 1100, 1400, 1150));
 		blockArray.push_back(Block(1000, 1300, 1720, 1350));
-		blockArray.push_back(Block(200, 1500, 600, 1550));
+	/*	blockArray.push_back(Block(200, 1500, 600, 1550));
 		blockArray.push_back(Block(700, 1700, 1720, 1750));
 		blockArray.push_back(Block(200, 1900, 800, 1950));
 		blockArray.push_back(Block(900, 2100, 1720, 2150));
@@ -46,7 +47,7 @@ class GameLayout {
 		blockArray.push_back(Block(800, 5400, 1720, 5450));
 		blockArray.push_back(Block(200, 5600, 1500, 5650));
 		blockArray.push_back(Block(500, 5800, 1720, 5850));
-
+		*/
 		for (vector<Block>::iterator blockIterator = blockArray.begin(); blockPushed <6; blockIterator++ ,blockPushed++)
 		{
 			block.push_back(*blockIterator);
@@ -55,12 +56,29 @@ class GameLayout {
 		
 	}
 
+	void generate_random_block_1()
+	{
+		float x_value= rand() % 1000 + 400;
+		blockArray.push_back(Block(200, 1500, x_value, 1550));
+	}
+
+
+	void generate_random_block_2()
+	{
+		float x_value = rand() % 1000 + 400;
+		blockArray.push_back(Block(x_value, 1500, 1720, 1550));
+	}
 	void updateBlocks()
 	{
-		if(blockPushed < ( blockArray.size() - 1 ))
+		//if(blockPushed < ( blockArray.size() - 1 ))
 			if (!isVisible())
 			{
+				if (blockPoped % 2 == 0)
+					generate_random_block_2();
+				else
+					generate_random_block_1();
 				block.push_back(blockArray.at(++blockPushed));
+				block.back().setBlockNumber(blockPushed);
 				block.pop_front();
 				blockPoped++;
 			
@@ -107,7 +125,7 @@ class GameLayout {
 	}
 	void displayNumbers(Block &block)
 	{
-		char str[3];
+		char str[5];
 		itoa(block.blockNumber, str, 10);
 		glColor3f(1, 1, 0);
 		glRasterPos2f(block.xm, block.ym);

@@ -10,6 +10,7 @@ public:
 	float ym;
 	static int count;
 	int blockNumber;
+	
 	Block()
 	{
 		x1 = 0;
@@ -18,8 +19,9 @@ public:
 		y2 = 0;
 		xm = 0;
 		ym = 0;
-		blockNumber = count++;
+	
 	}
+	
 	Block(float x1, float y1, float x2, float y2)
 	{
 		this->x1 = x1;
@@ -87,4 +89,8 @@ public:
 		return y2 - y1;
 	}
 
+	void setBlockNumber(int blockNumber)
+	{
+		this->blockNumber = blockNumber;
+	}
 };

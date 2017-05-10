@@ -21,7 +21,7 @@ public:
 	GameLayout gameLayout;
 	bool autoDecrement = false;
 
-	Player(GameLayout &gameLayout) {
+	Player(GameLayout gameLayout) {
 		
 		this->gameLayout = gameLayout;
 		playerBlock.setAttrib(200, 100, 250, 150);
@@ -97,7 +97,6 @@ public:
 			velocity_horizontal = 2000;
 		else if (velocity_horizontal < -2000)
 			velocity_horizontal = -2000;
-		//printf("Velocity horizontal:    %f\n", velocity_horizontal);
 	}
 
 	void compute_displacement()
@@ -120,34 +119,11 @@ public:
 		else
 			acceleration_vertical = -6000; 
 		
-		if (keys[0] && keys[2] && !jump)
-			acceleration_horizontal = -55000;
-		else if (keys[0] & keys[3] && !jump)
-			acceleration_horizontal = 55000;
-		else if (keys[2] && !jump)
+		if (keys[2])
 			acceleration_horizontal = -8000;
-		else if (keys[3] && !jump)
+		else if (keys[3])
 			acceleration_horizontal = 8000;
-
-		
 			
-		/*
-		else
-		{
-			if (keys[1])
-			{	//Damping when the block reaches ground
-				if (initial_velocity_horizontal > 700 && !jump)
-					acceleration_horizontal = -100000;
-				else if (initial_velocity_horizontal < -700 && !jump)
-					acceleration_horizontal = 100000;
-				else if (!jump)
-				{
-					initial_velocity_horizontal = 0;
-					acceleration_horizontal = 0;
-				}
-				jumpFinish = false;
-			}
-		*/
 
 		if (keys[1])
 			{	//normal retardation

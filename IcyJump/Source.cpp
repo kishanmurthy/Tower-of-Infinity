@@ -35,7 +35,7 @@ void timmer(int x)
 		player.decrementAllObjects();
 	
 	if (player.getAutoDecrement())
-		 //player.decrementAllObjects(1);
+		 player.decrementAllObjects(1);
 	
 	if (player.isOut())
 		exit(0);
