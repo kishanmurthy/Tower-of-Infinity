@@ -1,5 +1,6 @@
 #pragma once
 #include<GL/glut.h>
+#include<stdio.h>
 class KeyboardBuffer
 {
 public:
@@ -10,12 +11,14 @@ public:
 	{
 		if (c == 'w')
 			keys[0] = true;
-		else if (c == 's' || c==' ')
+		else if (c == 's' || c == ' ')
 			keys[1] = true;
 		else if (c == 'a')
 			keys[2] = true;
 		else if (c == 'd')
 			keys[3] = true;
+		else if (c == 'q')
+			exit(0);
 	}
 	static void keyboardUp(unsigned char c, int x, int y)
 	{
@@ -27,7 +30,8 @@ public:
 			keys[2] = false;
 		else if (c == 'd')
 			keys[3] = false;
-
+		else if (c == 'q')
+			keys[4] == false;
 	}
 
 	static void specialDown(int c, int x, int y)
@@ -40,6 +44,7 @@ public:
 			keys[2] = true;
 		else if (c == GLUT_KEY_RIGHT)
 			keys[3] = true;
+		
 
 
 	}

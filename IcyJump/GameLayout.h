@@ -193,7 +193,60 @@ class GameLayout {
 		for (int i = 0; i < strlen(str); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
 	}
+	void draw_player(Block playerBlock)
+	{
+		glColor3f(233 / 255.0, 229 / 255.0, 129 / 255.0);
+		glRectf(playerBlock.x1,playerBlock.y1, playerBlock.x2, playerBlock.y2);
+		glColor3f(0, 0, 0);
+		glLineWidth(2);
+		glBegin(GL_LINE_STRIP);
+		glVertex2f(playerBlock.x1, playerBlock.y1);
+		glVertex2f(playerBlock.x1, playerBlock.y2);
+		glVertex2f(playerBlock.x2, playerBlock.y2);
+		glVertex2f(playerBlock.x2, playerBlock.y1);
+		glVertex2f(playerBlock.x1, playerBlock.y1);
+		glVertex2f((playerBlock.x1 + playerBlock.x2) / 2, playerBlock.y2);
+		glVertex2f(playerBlock.x2, playerBlock.y1);
+		glVertex2f(playerBlock.x2, playerBlock.y2);
+		glVertex2f((playerBlock.x1 + playerBlock.x2) / 2, playerBlock.y1);
+		glVertex2f(playerBlock.x1, playerBlock.y2);
+		glEnd();
+	}
 
+
+	void draw_game_over()
+	{
+		glColor3f(233 / 255.0, 229 / 255.0, 129 / 255.0);
+		glRectf(560, 340, 1260, 640);
+
+		glColor3f(0, 0, 0);
+		glLineWidth(5);
+		glBegin(GL_LINE_LOOP);
+		glVertex2f(560, 340);
+		glVertex2f(560, 640);
+		glVertex2f(1260, 640);
+		glVertex2f(1260, 340);
+		glEnd();
+
+
+
+		char score[] = "GAME OVER!!!";
+		glRasterPos2f(800, 460);
+		for (int i = 0; i < strlen(score); i++)
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, score[i]);
+		/*
+		char str[5];
+		if (blockPoped <= 0)
+			itoa(0, str, 10);
+		else
+			itoa(blockPoped * 10, str, 10);
+
+		glRasterPos2f(1820, 1000);
+
+		for (int i = 0; i < strlen(str); i++)
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
+			*/
+	}
 	bool checkVerticalCollision(Block &playerBlock)
 	{
 		
@@ -292,5 +345,5 @@ class GameLayout {
 			return false;
 		return true;
 	}
-
+	
 };

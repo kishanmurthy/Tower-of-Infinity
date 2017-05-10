@@ -139,6 +139,7 @@ public:
 					acceleration_horizontal = 0;
 				}
 			}
+	
 		
 		
 	}
