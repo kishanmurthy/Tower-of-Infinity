@@ -25,29 +25,7 @@ class GameLayout {
 		blockArray.push_back(Block(700, 900, 1720, 950));
 		blockArray.push_back(Block(200, 1100, 1400, 1150));
 		blockArray.push_back(Block(1000, 1300, 1720, 1350));
-	/*	blockArray.push_back(Block(200, 1500, 600, 1550));
-		blockArray.push_back(Block(700, 1700, 1720, 1750));
-		blockArray.push_back(Block(200, 1900, 800, 1950));
-		blockArray.push_back(Block(900, 2100, 1720, 2150));
-		blockArray.push_back(Block(200, 2300, 1000, 2350));
-		blockArray.push_back(Block(800, 2500, 1720, 2550));
-		blockArray.push_back(Block(200, 2700, 1400, 2750));
-		blockArray.push_back(Block(800, 2900, 1720, 2950));
-		blockArray.push_back(Block(200, 3100, 600, 3150));
-		blockArray.push_back(Block(1000, 3300, 1720, 3350));
-		blockArray.push_back(Block(200, 3500, 1400, 3550));
-		blockArray.push_back(Block(1500, 3700, 1720, 3750));
-		blockArray.push_back(Block(800, 3900, 1300, 3950));
-		blockArray.push_back(Block(200, 4100, 600, 4150));
-		blockArray.push_back(Block(800, 4300, 1720, 4350));
-		blockArray.push_back(Block(200, 4500, 1400, 4550));
-		blockArray.push_back(Block(500, 4700, 1000, 4750));
-		blockArray.push_back(Block(1000, 4900, 1720, 4950));
-		blockArray.push_back(Block(200, 5200, 800, 5250));
-		blockArray.push_back(Block(800, 5400, 1720, 5450));
-		blockArray.push_back(Block(200, 5600, 1500, 5650));
-		blockArray.push_back(Block(500, 5800, 1720, 5850));
-		*/
+	
 		for (vector<Block>::iterator blockIterator = blockArray.begin(); blockPushed <6; blockIterator++ ,blockPushed++)
 		{
 			block.push_back(*blockIterator);
@@ -70,7 +48,6 @@ class GameLayout {
 	}
 	void updateBlocks()
 	{
-		//if(blockPushed < ( blockArray.size() - 1 ))
 			if (!isVisible())
 			{
 				if (blockPoped % 2 == 0)

@@ -20,7 +20,8 @@ public:
 	bool jumpFinish;
 	GameLayout gameLayout;
 	bool autoDecrement = false;
-
+	float scrolling_speed;
+	bool scrolling_speed_update = true;
 	Player(GameLayout gameLayout) {
 		
 		this->gameLayout = gameLayout;
@@ -36,6 +37,7 @@ public:
 		displacement_y = 0;
 		jump = false;
 		jumpFinish = false;
+		scrolling_speed = 1;
 	}
 	
 	void move_horizontal(float dx)
@@ -188,6 +190,28 @@ public:
 
 		decrementPlayerBlock(decrementValue);
 		gameLayout.decrementAllBlocks(decrementValue);
+	}
+	
+	void verticalScrolling()
+	{
+		if (autoDecrement)
+		{
+			decrementAllObjects(scrolling_speed);
+		}
+	}
+
+	void updateScrollingSpeed()
+	{
+		if (gameLayout.blockPoped % 20 == 0 && scrolling_speed_update)
+		{
+		
+			scrolling_speed *= 1.5;
+			scrolling_speed_update = false;
+		}
+		else if (gameLayout.blockPoped % 20 != 0)
+		{
+			scrolling_speed_update = true;
+		}
 	}
 
 	bool isOut()

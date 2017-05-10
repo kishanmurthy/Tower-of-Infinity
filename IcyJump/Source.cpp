@@ -29,13 +29,14 @@ void timmer(int x)
 	player.compute_displacement();
 	player.move_object();
 	player.resetHorizontalAccelerationifJump();
-	
 	player.gameLayout.updateBlocks();
+	player.verticalScrolling();
+	player.updateScrollingSpeed();
+	
 	if (player.checkThreshold())
 		player.decrementAllObjects();
 	
-	if (player.getAutoDecrement())
-		 player.decrementAllObjects(1);
+	
 	
 	if (player.isOut())
 		exit(0);
