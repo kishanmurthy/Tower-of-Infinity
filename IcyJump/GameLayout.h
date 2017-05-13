@@ -10,7 +10,7 @@
 using namespace std;
 class GameLayout {
 	public:
-	vector<Block> blockArray;
+	//vector<Block> blockArray;
 	list<Block> block;
 	int blockPushed=-1;
 	int blockPoped=-1;
@@ -18,33 +18,29 @@ class GameLayout {
 	int collisionAxis = 0;
 	GameLayout()
 	{
-		blockArray.push_back(Block(200, 50, 1720, 100)); 
-		blockArray.push_back(Block(200, 300, 1000, 350));
-		blockArray.push_back(Block(500, 500, 1720, 550));
-		blockArray.push_back(Block(200, 700, 800, 750));
-		blockArray.push_back(Block(700, 900, 1720, 950));
-		blockArray.push_back(Block(200, 1100, 1400, 1150));
-		blockArray.push_back(Block(1000, 1300, 1720, 1350));
+		block.push_back(Block(200, 50, 1720, 100)); 
+		block.push_back(Block(200, 300, 1000, 350));
+		block.push_back(Block(500, 500, 1720, 550));
+		block.push_back(Block(200, 700, 800, 750));
+		block.push_back(Block(700, 900, 1720, 950));
+		block.push_back(Block(200, 1100, 1400, 1150));
+		block.push_back(Block(1000, 1300, 1720, 1350));
 	
-		for (vector<Block>::iterator blockIterator = blockArray.begin(); blockPushed <6; blockIterator++ ,blockPushed++)
-		{
-			block.push_back(*blockIterator);
-			
-		}
+		blockPushed = 6;
 		
 	}
 
 	void generate_random_block_1()
 	{
 		float x_value= rand() % 1000 + 400;
-		blockArray.push_back(Block(200, 1500, x_value, 1550));
+		block.push_back(Block(200, 1500, x_value, 1550));
 	}
 
 
 	void generate_random_block_2()
 	{
 		float x_value = rand() % 1000 + 400;
-		blockArray.push_back(Block(x_value, 1500, 1720, 1550));
+		block.push_back(Block(x_value, 1500, 1720, 1550));
 	}
 	void updateBlocks()
 	{
@@ -54,7 +50,7 @@ class GameLayout {
 					generate_random_block_2();
 				else
 					generate_random_block_1();
-				block.push_back(blockArray.at(++blockPushed));
+				blockPushed++;
 				block.back().setBlockNumber(blockPushed);
 				block.pop_front();
 				blockPoped++;
@@ -319,10 +315,7 @@ class GameLayout {
 		{
 			blockIterator->increment_y(value*-1);
 		}
-		for (vector<Block>::iterator blockIterator = blockArray.begin(); blockIterator != blockArray.end(); blockIterator++)
-		{
-			blockIterator->increment_y(value*-1);
-		}
+		
 
 	}
 	

@@ -12,7 +12,7 @@ Player player(gameLayout);
 bool KeyboardBuffer::keys[4] = { false };
 int Block::count;
 bool out = false;
-void render()
+void render_game()
 {
 	glClearColor(230.0/255, 255.0 / 255, 240.0 / 255, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -20,6 +20,13 @@ void render()
 	player.gameLayout.draw_player(player.playerBlock);
 	if (out)
 		player.gameLayout.draw_game_over();
+	glFlush();
+}
+
+void render_game_menu()
+{
+	glClearColor(230.0 / 255, 255.0 / 255, 240.0 / 255, 1);
+	glClear(GL_COLOR_BUFFER_BIT);
 	glFlush();
 }
 
@@ -79,7 +86,8 @@ int main(int argc, char *argv[])
 	glutCreateWindow("Icy Jump");
 	myinit();
 	glutFullScreen();
-	glutDisplayFunc(render);
+	//glutDisplayFunc(render_game_menu);
+	glutDisplayFunc(render_game);
 	glutKeyboardFunc(&(KeyboardBuffer::keyboardDown));
 	glutKeyboardUpFunc(&(KeyboardBuffer::keyboardUp));
 	glutSpecialFunc(&(KeyboardBuffer::specialDown));
