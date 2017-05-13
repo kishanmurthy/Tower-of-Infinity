@@ -17,7 +17,7 @@ public:
 			keys[2] = true;
 		else if (c == 'd')
 			keys[3] = true;
-		else if (c == 'q')
+		else if (c == 'q' || c== 27)
 			exit(0);
 	}
 	static void keyboardUp(unsigned char c, int x, int y)
@@ -29,9 +29,7 @@ public:
 		else if (c == 'a')
 			keys[2] = false;
 		else if (c == 'd')
-			keys[3] = false;
-		else if (c == 'q')
-			keys[4] == false;
+			keys[3] = false;		
 	}
 
 	static void specialDown(int c, int x, int y)
