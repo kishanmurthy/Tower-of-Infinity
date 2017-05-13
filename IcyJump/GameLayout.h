@@ -146,10 +146,8 @@ class GameLayout {
 		float point1[2] = { 0,0 };
 		float point2[2] = { 200,1080 };
 		float color1[3] = { 56/255.0,46 / 255.0,28 / 255.0 };
-		//float color2[3] = { 128 / 255.0,0 / 255.0,0 / 255.0 };
 		float color2[3] = { 186 /255.0,163 / 255.0,120 / 255.0 };
-		//float color1[3] = { 0.75, 0.75 ,0.75 };
-		//float color2[3] = { 1,1,1 };
+
 		draw_side_block(point1, point2, color1, color2);
 		
 		float point3[2] = { 1720,0 };
@@ -234,18 +232,7 @@ class GameLayout {
 		glRasterPos2f(830, 480);
 		for (int i = 0; i < strlen(score); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, score[i]);
-		/*
-		char str[5];
-		if (blockPoped <= 0)
-			itoa(0, str, 10);
-		else
-			itoa(blockPoped * 10, str, 10);
 
-		glRasterPos2f(1820, 1000);
-
-		for (int i = 0; i < strlen(str); i++)
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
-			*/
 	}
 	bool checkVerticalCollision(Block &playerBlock)
 	{
