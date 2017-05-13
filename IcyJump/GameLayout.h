@@ -176,7 +176,7 @@ class GameLayout {
 
 		
 		char score[] ="Score";
-		glRasterPos2f(1800, 1050);
+		glRasterPos2f(1810, 1050);
 		for (int i = 0; i < strlen(score); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, score[i]);
 		
