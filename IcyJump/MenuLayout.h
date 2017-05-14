@@ -1,14 +1,19 @@
 #pragma once
 #include <GL/glut.h>
 class MenuLayout {
+
+	int option=0;
+
 public:
 	void draw_game_logo()
 	{
-		//glColor3f()
-		//glBegin(GL_POLYGON)
+		char str[] = "INFINITE TOWER";
+		glRasterPos2f(870,900);
+		for (int i = 0; i < strlen(str); i++)
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
 			
 	}
-
+	
 	void draw_button(float x ,float y,char * str)
 	{
 		glColor3f(233 / 255.0, 229 / 255.0, 129 / 255.0);
@@ -23,7 +28,7 @@ public:
 		glEnd();
 
 
-		glRasterPos2f(x-30, y-12);
+		glRasterPos2f(x-50, y-12);
 		for (int i = 0; i < strlen(str); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
 	}
@@ -42,8 +47,9 @@ public:
 		float point4[2] = { 1920,1080 };
 		draw_side_block(point3, point4, color1, color2);
 		draw_game_logo();
-		draw_button(960,540,"PLAY");
+		draw_button(960,540,"   PLAY  ");
 		draw_button(960, 240, "SETTINGS");
+		set_option_box();
 
 	}
 	void draw_side_block(float *point1, float *point2, float *color1, float *color2)
@@ -68,4 +74,57 @@ public:
 		glEnd();
 
 	}
+
+	void change_option(bool keys[])
+	{
+		if (keys[0])
+		{
+			option = 0;
+		}
+		else if(keys[1])
+		{
+			option = 1;
+		}
+		set_option_box();
+	}
+
+	int get_option(bool keys[])
+	{
+		change_option(keys);
+		if (keys[4])
+		{
+			return option;
+		}
+		return -1;
+	}
+
+	void set_option_box()
+	{
+		glColor3f(1, 1, 1);
+		glLineWidth(10);
+		if (option==0)
+		{
+		
+			glBegin(GL_LINE_LOOP);
+			glVertex2f(960 - 190, 540 - 90);
+			glVertex2f(960 - 190, 540 + 90);
+			glVertex2f(960 + 190, 540 + 90);
+			glVertex2f(960 + 190, 540 - 90);
+			glEnd();
+
+		}
+		else if (option)
+		{
+			glBegin(GL_LINE_LOOP);
+			glVertex2f(960 - 190, 240 - 90);
+			glVertex2f(960 - 190, 240 + 90);
+			glVertex2f(960 + 190, 240 + 90);
+			glVertex2f(960 + 190, 240 - 90);
+			glEnd();
+
+		}
+		
+	}
+
+
 };

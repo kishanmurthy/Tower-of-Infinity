@@ -10,50 +10,60 @@ using namespace std;
 MenuLayout menuLayout;
 GameLayout gameLayout;
 Player player(gameLayout);
-bool KeyboardBuffer::keys[4] = { false };
+bool KeyboardBuffer::keys[6] = { false };
 int Block::count;
 bool out = false;
-void render_game()
+int state = 0;
+void render()
 {
 	glClearColor(230.0/255, 255.0 / 255, 240.0 / 255, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
-	player.gameLayout.draw_layout();
-	player.gameLayout.draw_player(player.playerBlock);
-	if (out)
-		player.gameLayout.draw_game_over();
+	if (state == 0)
+	{
+		menuLayout.draw_layout();
+	
+	}
+	else if (state == 1 || state == 4)
+	{
+		player.gameLayout.draw_layout();
+		player.gameLayout.draw_player(player.playerBlock);
+		if (state == 4)
+			player.gameLayout.draw_game_over();
+	}
+
+	
 	glutSwapBuffers();
 }
 
-void render_game_menu()
-{
-	glClearColor(230.0 / 255, 255.0 / 255, 240.0 / 255, 0.6);
-	glClear(GL_COLOR_BUFFER_BIT);
-	menuLayout.draw_layout();
-	glutSwapBuffers();
-}
 
 void timmer(int x)
 {
-	player.setAcceleration(KeyboardBuffer::keys);
-	player.compute_velocity();
-	player.compute_displacement();
-	player.move_object();
-	player.resetHorizontalAccelerationifJump();
-	player.gameLayout.updateBlocks();
-	player.verticalScrolling();
-	player.updateScrollingSpeed();
-	
-	if (player.checkThreshold())
-		player.decrementAllObjects();
-	
-
-	
-	
-	if (player.isOut())
-		out = true;
-	else {
-		
+	if (state == 0)
+	{
+		int option = menuLayout.get_option(KeyboardBuffer::keys);
+		if (option > -1)
+			state = option + 1;
 		glutTimerFunc(1000 / FPS, timmer, 60);
+	}
+	else if (state == 1)
+	{
+		player.setAcceleration(KeyboardBuffer::keys);
+		player.compute_velocity();
+		player.compute_displacement();
+		player.move_object();
+		player.resetHorizontalAccelerationifJump();
+		player.gameLayout.updateBlocks();
+		player.verticalScrolling();
+		player.updateScrollingSpeed();
+		if (player.checkThreshold())
+			player.decrementAllObjects();
+		if (KeyboardBuffer::keys[5])
+			state = 0;
+		if (player.isOut())
+			state = 4;
+		else {
+			glutTimerFunc(1000 / FPS, timmer, 60);
+		}
 	}
 	glutPostRedisplay();
 }
@@ -87,9 +97,8 @@ int main(int argc, char *argv[])
 	glutInitWindowSize(1920, 1080);
 	glutCreateWindow("Icy Jump");
 	myinit();
-	glutFullScreen();
-	//glutDisplayFunc(render_game_menu);
-	glutDisplayFunc(render_game);
+	//glutFullScreen();
+	glutDisplayFunc(render);
 	glutKeyboardFunc(&(KeyboardBuffer::keyboardDown));
 	glutKeyboardUpFunc(&(KeyboardBuffer::keyboardUp));
 	glutSpecialFunc(&(KeyboardBuffer::specialDown));

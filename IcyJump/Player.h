@@ -109,7 +109,7 @@ public:
 		initial_velocity_vertical = velocity_vertical;
 	}
 
-	void setAcceleration(bool keys[4])
+	void setAcceleration(bool keys[])
 	{
 		if (keys[0])
 		{

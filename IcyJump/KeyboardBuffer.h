@@ -4,9 +4,7 @@
 class KeyboardBuffer
 {
 public:
-	static bool keys[4];
-	void (KeyboardBuffer::*keyboardDownPtr)(unsigned char, int, int);
-
+	static bool keys[6];
 	static void keyboardDown(unsigned char c, int x, int y)
 	{
 		if (c == 'w')
@@ -17,7 +15,11 @@ public:
 			keys[2] = true;
 		else if (c == 'd')
 			keys[3] = true;
-		else if (c == 'q' || c== 27)
+		else if (c == 13)
+			keys[4] = true;
+		else if (c == 27)
+			keys[5] == true;
+		else if (c == 'q')
 			exit(0);
 	}
 	static void keyboardUp(unsigned char c, int x, int y)
@@ -29,7 +31,11 @@ public:
 		else if (c == 'a')
 			keys[2] = false;
 		else if (c == 'd')
-			keys[3] = false;		
+			keys[3] = false;
+		else if (c == 13)
+			keys[4] = true;
+		else if (c == 27)
+			keys[5] == true;
 	}
 
 	static void specialDown(int c, int x, int y)
@@ -42,7 +48,7 @@ public:
 			keys[2] = true;
 		else if (c == GLUT_KEY_RIGHT)
 			keys[3] = true;
-		
+	
 
 
 	}
