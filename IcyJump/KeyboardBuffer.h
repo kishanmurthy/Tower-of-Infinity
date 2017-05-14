@@ -9,13 +9,13 @@ public:
 	static bool keys[7];
 	static void keyboardDown(unsigned char c, int x, int y)
 	{
-		if (c == 'w')
+		if (c == 'w' || c == 'W')
 			keys[0] = true;
-		else if (c == 's' || c == ' ')
+		else if (c == 's' || c == 'S'|| c == ' ')
 			keys[1] = true;
-		else if (c == 'a')
+		else if (c == 'a' || c == 'A')
 			keys[2] = true;
-		else if (c == 'd')
+		else if (c == 'd' || c == 'D')
 			keys[3] = true;
 		else if (c == 13)   //enter
 			keys[4] = true;
@@ -27,13 +27,13 @@ public:
 	}
 	static void keyboardUp(unsigned char c, int x, int y)
 	{
-		if (c == 'w')
+		if (c == 'w' || c == 'W')
 			keys[0] = false;
-		else if (c == 's' || c == ' ')
+		else if (c == 's' || c == 'S' || c == ' ')
 			keys[1] = false;
-		else if (c == 'a')
+		else if (c == 'a' || c == 'A')
 			keys[2] = false;
-		else if (c == 'd')
+		else if (c == 'd' || c == 'D')
 			keys[3] = false;
 		else if (c == 13)
 			keys[4] = false;
