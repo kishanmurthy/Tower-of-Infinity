@@ -143,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Block.h" />
+    <ClInclude Include="ContolLayout.h" />
     <ClInclude Include="GameLayout.h" />
     <ClInclude Include="KeyboardBuffer.h" />
     <ClInclude Include="MenuLayout.h" />

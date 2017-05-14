@@ -5,10 +5,12 @@
 #include "KeyboardBuffer.h"
 #include "GameLayout.h"
 #include "MenuLayout.h"
+#include "ContolLayout.h"
 using namespace std;
 #define FPS 60
 MenuLayout menuLayout;
 GameLayout gameLayout;
+ControlLayout controlLayout;
 Player player(gameLayout);
 bool KeyboardBuffer::keys[7] = { false };
 int Block::count;
@@ -40,6 +42,8 @@ void render()
 		if (state == 3)
 			player.gameLayout.draw_game_over();
 	}
+	else if (state == 2)
+		controlLayout.draw_layout();
 
 	
 	glutSwapBuffers();
@@ -119,7 +123,7 @@ int main(int argc, char *argv[])
 	glutInitWindowSize(1920, 1080);
 	glutCreateWindow("Icy Jump");
 	myinit();
-//	glutFullScreen();
+	glutFullScreen();
 	glutDisplayFunc(render);
 	glutKeyboardFunc(&(KeyboardBuffer::keyboardDown));
 	glutKeyboardUpFunc(&(KeyboardBuffer::keyboardUp));

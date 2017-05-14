@@ -35,5 +35,8 @@
     <ClInclude Include="MenuLayout.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="ContolLayout.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
