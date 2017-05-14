@@ -4,9 +4,10 @@
 #include "Player.h"
 #include "KeyboardBuffer.h"
 #include "GameLayout.h"
+#include "MenuLayout.h"
 using namespace std;
 #define FPS 60
-
+MenuLayout menuLayout;
 GameLayout gameLayout;
 Player player(gameLayout);
 bool KeyboardBuffer::keys[4] = { false };
@@ -20,14 +21,15 @@ void render_game()
 	player.gameLayout.draw_player(player.playerBlock);
 	if (out)
 		player.gameLayout.draw_game_over();
-	glFlush();
+	glutSwapBuffers();
 }
 
 void render_game_menu()
 {
-	glClearColor(230.0 / 255, 255.0 / 255, 240.0 / 255, 1);
+	glClearColor(230.0 / 255, 255.0 / 255, 240.0 / 255, 0.6);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glFlush();
+	menuLayout.draw_layout();
+	glutSwapBuffers();
 }
 
 void timmer(int x)
@@ -81,7 +83,7 @@ void myinit()
 int main(int argc, char *argv[])
 {
 	glutInit(&argc, argv);
-	glutInitDisplayMode(GLUT_SINGLE|GLUT_RGB);
+	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
 	glutInitWindowSize(1920, 1080);
 	glutCreateWindow("Icy Jump");
 	myinit();
