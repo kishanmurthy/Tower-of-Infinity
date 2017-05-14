@@ -1,10 +1,12 @@
-#pragma once
+
 #include<GL/glut.h>
 #include<stdio.h>
+#include<iostream>
+using namespace std;
 class KeyboardBuffer
 {
 public:
-	static bool keys[6];
+	static bool keys[7];
 	static void keyboardDown(unsigned char c, int x, int y)
 	{
 		if (c == 'w')
@@ -15,12 +17,13 @@ public:
 			keys[2] = true;
 		else if (c == 'd')
 			keys[3] = true;
-		else if (c == 13)
+		else if (c == 13)   //enter
 			keys[4] = true;
-		else if (c == 27)
-			keys[5] == true;
+		else if (c == 27)  //esc
+			keys[5] = true;
 		else if (c == 'q')
 			exit(0);
+
 	}
 	static void keyboardUp(unsigned char c, int x, int y)
 	{
@@ -33,9 +36,10 @@ public:
 		else if (c == 'd')
 			keys[3] = false;
 		else if (c == 13)
-			keys[4] = true;
-		else if (c == 27)
-			keys[5] == true;
+			keys[4] = false;
+		else if (c == 27) 
+			keys[5] = false;
+
 	}
 
 	static void specialDown(int c, int x, int y)
@@ -48,7 +52,7 @@ public:
 			keys[2] = true;
 		else if (c == GLUT_KEY_RIGHT)
 			keys[3] = true;
-	
+		
 
 
 	}

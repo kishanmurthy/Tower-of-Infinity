@@ -10,7 +10,7 @@ using namespace std;
 MenuLayout menuLayout;
 GameLayout gameLayout;
 Player player(gameLayout);
-bool KeyboardBuffer::keys[6] = { false };
+bool KeyboardBuffer::keys[7] = { false };
 int Block::count;
 bool out = false;
 int state = 0;
@@ -57,8 +57,10 @@ void timmer(int x)
 		player.updateScrollingSpeed();
 		if (player.checkThreshold())
 			player.decrementAllObjects();
-		if (KeyboardBuffer::keys[5])
+		if(player.checkEsc(KeyboardBuffer::keys))
+		{
 			state = 0;
+		}
 		if (player.isOut())
 			state = 4;
 		else {

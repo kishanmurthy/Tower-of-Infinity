@@ -1,4 +1,4 @@
-#pragma once
+#include<stdio.h>
 #include <GL/glut.h>
 class MenuLayout {
 
@@ -84,6 +84,10 @@ public:
 		else if(keys[1])
 		{
 			option = 1;
+		}
+	   if (keys[5])
+		{
+			printf("Escape press\n");
 		}
 		set_option_box();
 	}

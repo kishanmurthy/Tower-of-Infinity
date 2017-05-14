@@ -1,4 +1,3 @@
-#pragma once
 #include<stdio.h>
 #include "GameLayout.h"
 #include "Block.h"
@@ -218,6 +217,13 @@ public:
 	bool isOut()
 	{
 		if (playerBlock.y2 < 0)
+			return true;
+		return false;
+	}
+
+	bool checkEsc(bool keys[])
+	{
+		if (keys[5])
 			return true;
 		return false;
 	}
