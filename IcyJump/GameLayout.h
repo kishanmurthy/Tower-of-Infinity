@@ -29,6 +29,20 @@ class GameLayout {
 		blockPushed = 6;
 		
 	}
+	void reset()
+	{
+		block.clear();
+		block.push_back(Block(200, 50, 1720, 100));
+		block.push_back(Block(200, 300, 1000, 350));
+		block.push_back(Block(500, 500, 1720, 550));
+		block.push_back(Block(200, 700, 800, 750));
+		block.push_back(Block(700, 900, 1720, 950));
+		block.push_back(Block(200, 1100, 1400, 1150));
+		block.push_back(Block(1000, 1300, 1720, 1350));
+		blockPushed = 6;
+		blockPoped = -1;
+
+	}
 
 	void generate_random_block_1()
 	{

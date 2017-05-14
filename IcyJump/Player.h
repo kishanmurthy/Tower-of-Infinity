@@ -21,7 +21,7 @@ public:
 	bool autoDecrement = false;
 	float scrolling_speed;
 	bool scrolling_speed_update = true;
-	Player(GameLayout gameLayout) {
+	Player(GameLayout &gameLayout) {
 		
 		this->gameLayout = gameLayout;
 		playerBlock.setAttrib(200, 100, 250, 150);
@@ -38,7 +38,25 @@ public:
 		jumpFinish = false;
 		scrolling_speed = 1;
 	}
-	
+	void reset()
+	{
+		gameLayout.reset();
+		playerBlock.setAttrib(200, 100, 250, 150);
+		initial_velocity_horizontal = 0;
+		velocity_horizontal = 0;
+		initial_velocity_vertical = 0;
+		velocity_vertical = 0;
+		acceleration_horizontal = 0;
+		acceleration_vertical = 0;
+		displacement_x = 0;
+		displacement_y = 0;
+		jump = false;
+		jumpFinish = false;
+		scrolling_speed = 1;
+		autoDecrement = false;
+		scrolling_speed_update = true;
+	}
+
 	void move_horizontal(float dx)
 	{
 		playerBlock.increment_x(dx);
@@ -227,5 +245,5 @@ public:
 			return true;
 		return false;
 	}
-
+	
 };

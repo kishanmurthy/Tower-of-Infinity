@@ -43,7 +43,7 @@ void timmer(int x)
 		int option = menuLayout.get_option(KeyboardBuffer::keys);
 		if (option > -1)
 			state = option + 1;
-		glutTimerFunc(1000 / FPS, timmer, 60);
+		player.reset();
 	}
 	else if (state == 1)
 	{
@@ -58,15 +58,22 @@ void timmer(int x)
 		if (player.checkThreshold())
 			player.decrementAllObjects();
 		if(player.checkEsc(KeyboardBuffer::keys))
-		{
 			state = 0;
-		}
+	
 		if (player.isOut())
 			state = 4;
-		else {
-			glutTimerFunc(1000 / FPS, timmer, 60);
-		}
+
 	}
+	else if (state == 3)
+	{
+
+	}
+	else if (state == 4)
+	{
+		if (KeyboardBuffer::keys[5])
+			state = 0;
+	}
+	glutTimerFunc(1000 / FPS, timmer, 60);
 	glutPostRedisplay();
 }
 void reshape(int w,int h)
@@ -99,7 +106,7 @@ int main(int argc, char *argv[])
 	glutInitWindowSize(1920, 1080);
 	glutCreateWindow("Icy Jump");
 	myinit();
-	//glutFullScreen();
+	glutFullScreen();
 	glutDisplayFunc(render);
 	glutKeyboardFunc(&(KeyboardBuffer::keyboardDown));
 	glutKeyboardUpFunc(&(KeyboardBuffer::keyboardUp));
