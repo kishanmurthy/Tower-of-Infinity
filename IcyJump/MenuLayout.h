@@ -48,7 +48,7 @@ public:
 		draw_side_block(point3, point4, color1, color2);
 		draw_game_logo();
 		draw_button(960,540,"   PLAY  ");
-		draw_button(960, 240, "SETTINGS");
+		draw_button(960, 240, "CONTROLS");
 		set_option_box();
 
 	}
