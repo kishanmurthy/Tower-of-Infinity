@@ -129,6 +129,7 @@ int main(int argc, char *argv[])
 	glutKeyboardUpFunc(&(KeyboardBuffer::keyboardUp));
 	glutSpecialFunc(&(KeyboardBuffer::specialDown));
 	glutSpecialUpFunc(&(KeyboardBuffer::specialUp));
+	glutSetCursor(GLUT_CURSOR_NONE);
 	glutReshapeFunc(reshape);
 	glutTimerFunc(1000/FPS,timmer,60);
 	glutMainLoop();
