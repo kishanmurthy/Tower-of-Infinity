@@ -7,7 +7,7 @@ class MenuLayout {
 public:
 	void draw_game_logo()
 	{
-		char str[] = "INFINITE TOWER";
+		char str[] = "TOWER OF INFINITY";
 		glRasterPos2f(870,900);
 		for (int i = 0; i < strlen(str); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);

@@ -5,8 +5,8 @@
 #define PLAYERTHRESHOLD 800
 class Player
 {
-public:
-	Block playerBlock;
+
+
 	float initial_velocity_horizontal;
 	float velocity_horizontal;
 	float initial_velocity_vertical;
@@ -17,10 +17,13 @@ public:
 	float displacement_y;
 	bool jump;
 	bool jumpFinish;
-	GameLayout gameLayout;
 	bool autoDecrement = false;
 	float scrolling_speed;
 	bool scrolling_speed_update = true;
+
+public:
+	GameLayout gameLayout;
+	Block playerBlock;
 	Player(GameLayout &gameLayout) {
 		
 		this->gameLayout = gameLayout;
@@ -37,6 +40,34 @@ public:
 		jump = false;
 		jumpFinish = false;
 		scrolling_speed = 1;
+	}
+
+	bool checkEsc(bool keys[])
+	{
+		if (keys[5])
+			return true;
+		return false;
+	}
+	bool checkThreshold()
+	{
+		if (playerBlock.ym > PLAYERTHRESHOLD)
+		{
+			autoDecrement = true;
+			return true;
+		}
+		return false;
+	}
+
+	void compute_physics()
+	{
+		compute_velocity();
+		compute_displacement();
+	}
+
+	void move_object()
+	{
+		move_vertical(displacement_y);
+		move_horizontal(displacement_x);
 	}
 	void reset()
 	{
@@ -56,6 +87,51 @@ public:
 		autoDecrement = false;
 		scrolling_speed_update = true;
 	}
+
+	void resetHorizontalAccelerationifJump()
+	{
+		if (acceleration_vertical == 120000)
+		{
+			jump = true;
+			acceleration_horizontal = 0;
+		}
+	}
+
+	void setAcceleration(bool keys[])
+	{
+		if (keys[0])
+		{
+			if (!jump)
+				acceleration_vertical = 120000;
+			else
+				acceleration_vertical = -6000; //Is set when the object is in jump state and up arrow pressed.
+		}
+		else
+			acceleration_vertical = -6000;
+
+		if (keys[2])
+			acceleration_horizontal = -8000;
+		else if (keys[3])
+			acceleration_horizontal = 8000;
+
+
+		if (keys[1])
+		{	//normal retardation
+			if (initial_velocity_horizontal > 100 && !jump)
+				acceleration_horizontal = -5000;
+			else if (initial_velocity_horizontal < -100 && !jump)
+				acceleration_horizontal = 5000;
+			else if (!jump)
+			{
+				initial_velocity_horizontal = 0;
+				acceleration_horizontal = 0;
+			}
+		}
+
+
+
+	}
+	
 
 	void move_horizontal(float dx)
 	{
@@ -102,11 +178,7 @@ public:
 			}
 		}
 	}
-	void move_object()
-	{
-		move_vertical(displacement_y);
-		move_horizontal(displacement_x);
-	}
+
 
 	void compute_velocity()
 	{
@@ -126,59 +198,11 @@ public:
 		initial_velocity_vertical = velocity_vertical;
 	}
 
-	void setAcceleration(bool keys[])
-	{
-		if (keys[0])
-		{
-			if (!jump)
-				acceleration_vertical = 120000;
-			else
-				acceleration_vertical = -6000; //Is set when the object is in jump state and up arrow pressed.
-		}
-		else
-			acceleration_vertical = -6000; 
-		
-		if (keys[2])
-			acceleration_horizontal = -8000;
-		else if (keys[3])
-			acceleration_horizontal = 8000;
-			
 
-		if (keys[1])
-			{	//normal retardation
-				if (initial_velocity_horizontal > 100 && !jump)
-					acceleration_horizontal = -5000;
-				else if (initial_velocity_horizontal < -100 && !jump)
-					acceleration_horizontal = 5000;
-				else if (!jump)
-				{
-					initial_velocity_horizontal = 0;
-					acceleration_horizontal = 0;
-				}
-			}
-	
-		
-		
-	}
 
-	void resetHorizontalAccelerationifJump()
-	{
-		if (acceleration_vertical == 120000)
-		{
-			jump = true;
-			acceleration_horizontal = 0;
-		}
-	}
 
-	bool checkThreshold()
-	{
-		if (playerBlock.ym > PLAYERTHRESHOLD)
-		{
-			autoDecrement = true;
-			return true;
-		}
-		return false;
-	}
+
+
 
 	bool getAutoDecrement()
 	{
@@ -220,13 +244,13 @@ public:
 
 	void updateScrollingSpeed()
 	{
-		if (gameLayout.blockPoped % 20 == 0 && scrolling_speed_update)
+		if (gameLayout.blockPoped % 50 == 0 && scrolling_speed_update)
 		{
 		
 			scrolling_speed *= 1.5;
 			scrolling_speed_update = false;
 		}
-		else if (gameLayout.blockPoped % 20 != 0)
+		else if (gameLayout.blockPoped % 50 != 0)
 		{
 			scrolling_speed_update = true;
 		}
@@ -239,11 +263,6 @@ public:
 		return false;
 	}
 
-	bool checkEsc(bool keys[])
-	{
-		if (keys[5])
-			return true;
-		return false;
-	}
+
 	
 };

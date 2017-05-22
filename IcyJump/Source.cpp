@@ -12,7 +12,7 @@ MenuLayout menuLayout;
 GameLayout gameLayout;
 ControlLayout controlLayout;
 Player player(gameLayout);
-bool KeyboardBuffer::keys[7] = { false };
+bool KeyboardBuffer::keys[6] = { false };
 int Block::count;
 bool out = false;
 int state = 0;
@@ -64,8 +64,7 @@ void timmer(int x)
 	else if (state == 1)
 	{
 		player.setAcceleration(KeyboardBuffer::keys);
-		player.compute_velocity();
-		player.compute_displacement();
+		player.compute_physics();
 		player.move_object();
 		player.resetHorizontalAccelerationifJump();
 		player.gameLayout.updateBlocks();

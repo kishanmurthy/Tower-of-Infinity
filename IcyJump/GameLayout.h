@@ -120,20 +120,28 @@ class GameLayout {
 	}
 	void displayNumbers(Block &block)
 	{
+		int no_of_digits = 0;
+		int number = block.blockNumber;
+		
+		char str[5];
+		itoa(block.blockNumber, str, 10);
+		while (str[no_of_digits]!='\0')
+		{
+			no_of_digits++;
+		}
 		glColor3f(233 / 255.0, 229 / 255.0, 129 / 255.0);
-		glRectf(block.xm-15, block.ym-15, block.xm+20, block.ym+15);
+		glRectf(block.xm-7.5*no_of_digits, block.ym-15, block.xm+10* no_of_digits, block.ym+15);
 		glColor3f(0, 0, 0);
 		glLineWidth(4);
 		glBegin(GL_LINE_LOOP);
-		glVertex2f(block.xm-15, block.ym - 15);
-		glVertex2f(block.xm - 15, block.ym +15);
-		glVertex2f(block.xm +20, block.ym +15);
-		glVertex2f(block.xm +20, block.ym - 15);
+		glVertex2f(block.xm-7.5*no_of_digits, block.ym - 15);
+		glVertex2f(block.xm - 7.5 * no_of_digits, block.ym +15);
+		glVertex2f(block.xm +10 * no_of_digits, block.ym +15);
+		glVertex2f(block.xm +10* no_of_digits, block.ym - 15);
 		glEnd();
-		char str[5];
-		itoa(block.blockNumber, str, 10);
+		
 		glColor3f(0, 0, 0);
-		glRasterPos2f(block.xm-10, block.ym-10);
+		glRasterPos2f(block.xm-4*no_of_digits, block.ym-8);
 
 		for (int i = 0; i < strlen(str); i++)
 			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str[i]);
@@ -323,6 +331,8 @@ class GameLayout {
 			return true;
 		return false;
 	}
+
+
 	void decrementAllBlocks(float value)
 	{
 		for (list<Block>::iterator blockIterator = block.begin(); blockIterator != block.end(); blockIterator++)

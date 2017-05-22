@@ -6,7 +6,7 @@ using namespace std;
 class KeyboardBuffer
 {
 public:
-	static bool keys[7];
+	static bool keys[6];
 	static void keyboardDown(unsigned char c, int x, int y)
 	{
 		if (c == 'w' || c == 'W')
