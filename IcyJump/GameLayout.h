@@ -178,6 +178,8 @@ class GameLayout {
 
 	void display_score()
 	{
+	
+	
 		glColor3f(233/255.0, 229/255.0, 129/255.0);
 		glRectf(1750, 980, 1920, 1080);
 		
@@ -192,7 +194,7 @@ class GameLayout {
 		glEnd();
 
 
-		
+
 		char score[] ="Score";
 		glRasterPos2f(1810, 1050);
 		for (int i = 0; i < strlen(score); i++)
@@ -204,6 +206,7 @@ class GameLayout {
 		else
 			itoa(blockPoped*10, str, 10);
 	
+		
 		glRasterPos2f(1820, 1000);
 
 		for (int i = 0; i < strlen(str); i++)

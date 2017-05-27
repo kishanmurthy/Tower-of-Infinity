@@ -30,9 +30,47 @@ public:
 	{
 		float color[3] = { 0,0,0 };
 		float color_background[3] = { 15 / 255.0,124 / 255.0,198 / 255.0 };
+		float color1[3] = { 56 / 255.0,46 / 255.0,28 / 255.0 };
+		float color2[3] = { 80 / 255.0,60 / 255.0,40 / 255.0 };
+		
 		glColor3fv(color_background);
 		glRectf(200, 800, 1720, 1080);
-		
+		/*
+		glBegin(GL_POLYGON);
+		glColor3fv(color2);
+		glVertex2f(200, 800);
+		glVertex2f(200, 1080);
+		glColor3fv(color1);
+		glVertex2f(960, 1080);
+		glVertex2f(960, 800);
+		glEnd();
+		glBegin(GL_POLYGON);
+		glColor3fv(color1);
+		glVertex2f(960, 800);
+		glVertex2f(960, 1080);
+		glColor3fv(color2);
+		glVertex2f(1720, 1080);
+		glVertex2f(1720, 800);
+		glEnd();
+		*/
+		/*
+		glBegin(GL_POLYGON);
+		glColor3fv(color2);
+		glVertex2f(200, 800);
+		glVertex2f(1720, 800);
+		glColor3fv(color1);
+		glVertex2f(1720, 940);
+		glVertex2f(200, 940);
+		glEnd();
+		glBegin(GL_POLYGON);
+		glColor3fv(color1);
+		glVertex2f(200, 940);
+		glVertex2f(1720, 940);
+		glColor3fv(color2);
+		glVertex2f(1720, 1080);
+		glVertex2f(200, 1080);
+		glEnd();
+		*/
 		glColor3fv(color);
 		glLineWidth(4);
 		glBegin(GL_LINE_LOOP);
@@ -44,7 +82,7 @@ public:
 		
 		char str1[] = "TOWER OF INFINITY";
 		glColor3f(1, 1, 1);
-		glRasterPos2f(830, 950);
+		glRasterPos2f(830, 925);
 		for (int i = 0; i < strlen(str1); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str1[i]);
 
