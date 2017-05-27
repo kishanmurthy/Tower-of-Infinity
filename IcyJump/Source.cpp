@@ -12,11 +12,11 @@ MenuLayout menuLayout;
 GameLayout gameLayout;
 ControlLayout controlLayout;
 Player player(gameLayout);
-bool KeyboardBuffer::keys[6] = { false };
+bool KeyboardBuffer::keys[7] = { false };
 int Block::count;
 bool out = false;
 int state = 0;
-
+bool joystick_present = false;
 bool checkEscKey()
 {
 	if (KeyboardBuffer::keys[5])
@@ -54,7 +54,7 @@ void timmer(int x)
 {
 	if (state == 0)
 	{
-		if (checkEscKey())
+		if (checkEscKey() && !KeyboardBuffer::keys[6])
 			exit(0);
 		int option = menuLayout.get_option(KeyboardBuffer::keys);
 		if (option > -1)
@@ -114,6 +114,14 @@ void myinit()
 	gluOrtho2D(0, 1920, 0, 1080);
 	glMatrixMode(GL_MODELVIEW);
 }
+void joystick(unsigned int b, int x, int y, int z)
+{
+	if (x > 200)
+		KeyboardBuffer::keys[1] = true;
+	else if (x < -200)
+		printf("Left\n");
+}
+
 
 int main(int argc, char *argv[])
 {
@@ -128,6 +136,7 @@ int main(int argc, char *argv[])
 	glutKeyboardUpFunc(&(KeyboardBuffer::keyboardUp));
 	glutSpecialFunc(&(KeyboardBuffer::specialDown));
 	glutSpecialUpFunc(&(KeyboardBuffer::specialUp));
+	glutJoystickFunc(&KeyboardBuffer::joystick,1000/60);
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutReshapeFunc(reshape);
 	glutTimerFunc(1000/FPS,timmer,60);
