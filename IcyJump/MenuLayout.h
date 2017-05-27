@@ -34,6 +34,30 @@ public:
 	}
 
 
+	void draw_title()
+	{
+		float color[3] = { 0,0,0 };
+		float color_background[3] = { 15 / 255.0,124 / 255.0,198 / 255.0 };
+		glColor3fv(color_background);
+		glRectf(200, 800, 1720, 1080);
+		
+		glColor3fv(color);
+		glLineWidth(4);
+		glBegin(GL_LINE_LOOP);
+		glVertex2f(200, 800);
+		glVertex2f(200, 1078);
+		glVertex2f(1720, 1078);
+		glVertex2f(1720, 800);
+		glEnd();
+		
+		char str1[] = "TOWER OF INFINITY";
+		glColor3f(1, 1, 1);
+		glRasterPos2f(830, 950);
+		for (int i = 0; i < strlen(str1); i++)
+			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str1[i]);
+
+		
+	}
 	void draw_layout()
 	{
 		float point1[2] = { 0,0 };
@@ -46,7 +70,8 @@ public:
 		float point3[2] = { 1720,0 };
 		float point4[2] = { 1920,1080 };
 		draw_side_block(point3, point4, color1, color2);
-		draw_game_logo();
+		//draw_game_logo();
+		draw_title();
 		draw_button(960,540,"   PLAY  ");
 		draw_button(960, 240, "CONTROLS");
 		set_option_box();
