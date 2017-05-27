@@ -95,7 +95,7 @@ public:
 	int get_option(bool keys[])
 	{
 		change_option(keys);
-		if (keys[4])
+		if (keys[4]) //enter key
 		{
 			return option;
 		}

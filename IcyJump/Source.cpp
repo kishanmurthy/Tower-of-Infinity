@@ -12,11 +12,11 @@ MenuLayout menuLayout;
 GameLayout gameLayout;
 ControlLayout controlLayout;
 Player player(gameLayout);
-bool KeyboardBuffer::keys[7] = { false };
+bool KeyboardBuffer::keys[6] = { false };
+bool KeyboardBuffer::isControllerInUse = true;
 int Block::count;
 bool out = false;
 int state = 0;
-bool joystick_present = false;
 bool checkEscKey()
 {
 	if (KeyboardBuffer::keys[5])
@@ -35,16 +35,21 @@ void render()
 		menuLayout.draw_layout();
 	
 	}
-	else if (state == 1 || state == 3)
+	else if (state == 1 || state == 4)
 	{
 		player.gameLayout.draw_layout();
 		player.gameLayout.draw_player(player.playerBlock);
-		if (state == 3)
+		if (state == 4)
 			player.gameLayout.draw_game_over();
 	}
 	else if (state == 2)
-		controlLayout.draw_layout();
-
+	{
+		controlLayout.draw_layout_keyboard();
+	}
+	else if (state == 3)
+	{
+		controlLayout.draw_layout_controller();
+	}
 	
 	glutSwapBuffers();
 }
@@ -54,12 +59,12 @@ void timmer(int x)
 {
 	if (state == 0)
 	{
-		if (checkEscKey() && !KeyboardBuffer::keys[6])
-			exit(0);
+
 		int option = menuLayout.get_option(KeyboardBuffer::keys);
 		if (option > -1)
 			state = option + 1;
-		player.reset();
+		if(state==1)
+			player.reset();
 	}
 	else if (state == 1)
 	{
@@ -76,15 +81,24 @@ void timmer(int x)
 			state = 0;
 	
 		if (player.isOut())
-			state = 3;
+			state = 4;
 
 	}
 	else if (state == 2)
 	{
 		if (checkEscKey())
 			state = 0;
+		else if (KeyboardBuffer::keys[3])
+			state = 3;
 	}
 	else if (state == 3)
+	{
+		if (checkEscKey())
+			state = 0;
+		else if (KeyboardBuffer::keys[2])
+			state = 2;
+	}
+	else if (state == 4)
 	{
 		if (checkEscKey())
 			state = 0;
@@ -128,7 +142,7 @@ int main(int argc, char *argv[])
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DOUBLE|GLUT_RGB);
 	glutInitWindowSize(1920, 1080);
-	glutCreateWindow("Icy Jump");
+	glutCreateWindow("TOWER OF INFINITY");
 	myinit();
 	glutFullScreen();
 	glutDisplayFunc(render);
@@ -136,7 +150,7 @@ int main(int argc, char *argv[])
 	glutKeyboardUpFunc(&(KeyboardBuffer::keyboardUp));
 	glutSpecialFunc(&(KeyboardBuffer::specialDown));
 	glutSpecialUpFunc(&(KeyboardBuffer::specialUp));
-	glutJoystickFunc(&KeyboardBuffer::joystick,1000/60);
+	glutJoystickFunc(&KeyboardBuffer::controller,1000/FPS);
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutReshapeFunc(reshape);
 	glutTimerFunc(1000/FPS,timmer,60);

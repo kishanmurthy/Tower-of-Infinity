@@ -6,9 +6,11 @@ using namespace std;
 class KeyboardBuffer
 {
 public:
-	static bool keys[7];
+	static bool keys[6];
+	static bool isControllerInUse;
 	static void keyboardDown(unsigned char c, int x, int y)
 	{
+		isControllerInUse = false;
 		if (c == 'w' || c == 'W')
 			keys[0] = true;
 		else if (c == 's' || c == 'S'|| c == ' ')
@@ -27,6 +29,7 @@ public:
 	}
 	static void keyboardUp(unsigned char c, int x, int y)
 	{
+		isControllerInUse = false;
 		if (c == 'w' || c == 'W')
 			keys[0] = false;
 		else if (c == 's' || c == 'S' || c == ' ')
@@ -44,6 +47,7 @@ public:
 
 	static void specialDown(int c, int x, int y)
 	{
+		isControllerInUse = false;
 		if (c == GLUT_KEY_UP)
 			keys[0] = true;
 		else if (c == GLUT_KEY_DOWN)
@@ -58,6 +62,7 @@ public:
 	}
 	static void specialUp(int c, int x, int y)
 	{
+		isControllerInUse = false;
 		if (c == GLUT_KEY_UP)
 			keys[0] = false;
 		else if (c == GLUT_KEY_DOWN)
@@ -69,54 +74,59 @@ public:
 
 	}
 
-	static void joystick(unsigned int b, int x, int y, int z)
+	static void controller(unsigned int b, int x, int y, int z)
 	{
-		keys[6] = true;
-		if (z < -200)
-		{
-			keys[0] = true;
-			keys[1] = false;
-		}
-		else if (z > 200)
-		{
-			keys[0] = false;
-			keys[1] = true;
-		}
-		else
-		{
-			keys[0] = false;
-			keys[1] = false;
-		}
-
-
-		if (x < -200)
-		{
-			keys[2] = true;
-			keys[3] = false;
-		}
-		else if (x > 200)
-		{
-			keys[2] = false;
-			keys[3] = true;
-		}
-		else
-		{
-			keys[2] = false;
-			keys[3] = false;
-		}
-
-		if (b == GLUT_JOYSTICK_BUTTON_A)
-			keys[4] = true;
-		else
-			keys[4] = false;
-
-		if (b == GLUT_JOYSTICK_BUTTON_B)
-			keys[5] = true;
-
+		if (b == 64)
+			isControllerInUse = true;
 		
-		if (b == GLUT_JOYSTICK_BUTTON_C)
-			exit(0);
-			
+		if (isControllerInUse)
+		{
+			if (z < -200)
+			{
+				keys[0] = true;
+				keys[1] = false;
+			}
+			else if (z > 200)
+			{
+				keys[0] = false;
+				keys[1] = true;
+			}
+			else
+			{
+				keys[0] = false;
+				keys[1] = false;
+			}
+
+
+			if (x < -200)
+			{
+				keys[2] = true;
+				keys[3] = false;
+			}
+			else if (x > 200)
+			{
+				keys[2] = false;
+				keys[3] = true;
+			}
+			else
+			{
+				keys[2] = false;
+				keys[3] = false;
+			}
+
+			if (b == GLUT_JOYSTICK_BUTTON_A)
+				keys[4] = true;
+			else
+				keys[4] = false;
+
+			if (b == GLUT_JOYSTICK_BUTTON_B)
+				keys[5] = true;
+			else
+				keys[5] = false;
+
+			if (b == GLUT_JOYSTICK_BUTTON_C)
+				exit(0);
+		}
 	}
 
 };
