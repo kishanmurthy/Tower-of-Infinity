@@ -5,14 +5,6 @@ class MenuLayout {
 	int option=0;
 
 public:
-	void draw_game_logo()
-	{
-		char str[] = "TOWER OF INFINITY";
-		glRasterPos2f(870,900);
-		for (int i = 0; i < strlen(str); i++)
-			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
-			
-	}
 	
 	void draw_button(float x ,float y,char * str)
 	{
@@ -70,7 +62,6 @@ public:
 		float point3[2] = { 1720,0 };
 		float point4[2] = { 1920,1080 };
 		draw_side_block(point3, point4, color1, color2);
-		//draw_game_logo();
 		draw_title();
 		draw_button(960,540,"   PLAY  ");
 		draw_button(960, 240, "CONTROLS");
