@@ -5,8 +5,6 @@
 #define PLAYERTHRESHOLD 800
 class Player
 {
-
-
 	float initial_velocity_horizontal;
 	float velocity_horizontal;
 	float initial_velocity_vertical;
@@ -25,9 +23,8 @@ public:
 	GameLayout gameLayout;
 	Block playerBlock;
 	Player(GameLayout &gameLayout) {
-		
 		this->gameLayout = gameLayout;
-		playerBlock.setAttrib(200, 100, 250, 150);
+		playerBlock.setAttributes(200, 100, 250, 150);
 
 		initial_velocity_horizontal = 0;
 		velocity_horizontal = 0;
@@ -72,7 +69,7 @@ public:
 	void reset()
 	{
 		gameLayout.reset();
-		playerBlock.setAttrib(200, 100, 250, 150);
+		playerBlock.setAttributes(200, 100, 250, 150);
 		initial_velocity_horizontal = 0;
 		velocity_horizontal = 0;
 		initial_velocity_vertical = 0;
@@ -114,7 +111,6 @@ public:
 		else if (keys[3])
 			acceleration_horizontal = 8000;
 
-
 		if (keys[1])
 		{	//normal retardation
 			if (initial_velocity_horizontal > 100 && !jump)
@@ -127,11 +123,7 @@ public:
 				acceleration_horizontal = 0;
 			}
 		}
-
-
-
 	}
-	
 
 	void move_horizontal(float dx)
 	{
@@ -179,7 +171,6 @@ public:
 		}
 	}
 
-
 	void compute_velocity()
 	{
 		velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
@@ -198,12 +189,6 @@ public:
 		initial_velocity_vertical = velocity_vertical;
 	}
 
-
-
-
-
-
-
 	bool getAutoDecrement()
 	{
 		if (autoDecrement)
@@ -219,7 +204,7 @@ public:
 	{
 		playerBlock.increment_y(value*-1);
 	}
- 
+
 	void decrementAllObjects()
 	{
 		float decrementValue = getDecrementValue();
@@ -229,11 +214,10 @@ public:
 
 	void decrementAllObjects(float decrementValue)
 	{
-
 		decrementPlayerBlock(decrementValue);
 		gameLayout.decrementAllBlocks(decrementValue);
 	}
-	
+
 	void verticalScrolling()
 	{
 		if (autoDecrement)
@@ -244,13 +228,12 @@ public:
 
 	void updateScrollingSpeed()
 	{
-		if (gameLayout.blockPoped % 50 == 0 && scrolling_speed_update)
+		if (gameLayout.get_block_poped() % 50 == 0 && scrolling_speed_update)
 		{
-		
 			scrolling_speed *= 1.5;
 			scrolling_speed_update = false;
 		}
-		else if (gameLayout.blockPoped % 50 != 0)
+		else if (gameLayout.get_block_poped() % 50 != 0)
 		{
 			scrolling_speed_update = true;
 		}
@@ -262,7 +245,4 @@ public:
 			return true;
 		return false;
 	}
-
-
-	
 };

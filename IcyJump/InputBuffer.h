@@ -1,9 +1,8 @@
-
 #include<GL/glut.h>
 #include<stdio.h>
 #include<iostream>
 using namespace std;
-class KeyboardBuffer
+class InputBuffer
 {
 public:
 	static bool keys[6];
@@ -13,7 +12,7 @@ public:
 		isControllerInUse = false;
 		if (c == 'w' || c == 'W')
 			keys[0] = true;
-		else if (c == 's' || c == 'S'|| c == ' ')
+		else if (c == 's' || c == 'S' || c == ' ')
 			keys[1] = true;
 		else if (c == 'a' || c == 'A')
 			keys[2] = true;
@@ -25,7 +24,6 @@ public:
 			keys[5] = true;
 		else if (c == 'q')
 			exit(0);
-
 	}
 	static void keyboardUp(unsigned char c, int x, int y)
 	{
@@ -40,9 +38,8 @@ public:
 			keys[3] = false;
 		else if (c == 13)
 			keys[4] = false;
-		else if (c == 27) 
+		else if (c == 27)
 			keys[5] = false;
-
 	}
 
 	static void specialDown(int c, int x, int y)
@@ -56,9 +53,6 @@ public:
 			keys[2] = true;
 		else if (c == GLUT_KEY_RIGHT)
 			keys[3] = true;
-		
-
-
 	}
 	static void specialUp(int c, int x, int y)
 	{
@@ -71,14 +65,13 @@ public:
 			keys[2] = false;
 		else if (c == GLUT_KEY_RIGHT)
 			keys[3] = false;
-
 	}
 
 	static void controller(unsigned int b, int x, int y, int z)
 	{
 		if (b == 64)
 			isControllerInUse = true;
-		
+
 		if (isControllerInUse)
 		{
 			if (z < -200)
@@ -96,7 +89,6 @@ public:
 				keys[0] = false;
 				keys[1] = false;
 			}
-
 
 			if (x < -200)
 			{
@@ -128,5 +120,4 @@ public:
 				exit(0);
 		}
 	}
-
 };

@@ -1,12 +1,11 @@
 #include<stdio.h>
 #include <GL/glut.h>
 class MenuLayout {
-
-	int option=0;
+	int option = 0;
 
 public:
-	
-	void draw_button(float x ,float y,char * str)
+
+	void draw_button(float x, float y, char * str)
 	{
 		glColor3f(233 / 255.0, 229 / 255.0, 129 / 255.0);
 		glRectf(x - 200, y - 100, x + 200, y + 100);
@@ -19,12 +18,10 @@ public:
 		glVertex2f(x + 200, y - 100);
 		glEnd();
 
-
-		glRasterPos2f(x-50, y-12);
+		glRasterPos2f(x - 50, y - 12);
 		for (int i = 0; i < strlen(str); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str[i]);
 	}
-
 
 	void draw_title()
 	{
@@ -32,7 +29,7 @@ public:
 		float color_background[3] = { 15 / 255.0,124 / 255.0,198 / 255.0 };
 		float color1[3] = { 56 / 255.0,46 / 255.0,28 / 255.0 };
 		float color2[3] = { 80 / 255.0,60 / 255.0,40 / 255.0 };
-		
+
 		glColor3fv(color_background);
 		glRectf(200, 800, 1720, 1080);
 		/*
@@ -79,14 +76,12 @@ public:
 		glVertex2f(1720, 1078);
 		glVertex2f(1720, 800);
 		glEnd();
-		
+
 		char str1[] = "TOWER OF INFINITY";
 		glColor3f(1, 1, 1);
 		glRasterPos2f(830, 925);
 		for (int i = 0; i < strlen(str1); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, str1[i]);
-
-		
 	}
 	void draw_layout()
 	{
@@ -101,15 +96,12 @@ public:
 		float point4[2] = { 1920,1080 };
 		draw_side_block(point3, point4, color1, color2);
 		draw_title();
-		draw_button(960,540,"   PLAY  ");
+		draw_button(960, 540, "   PLAY  ");
 		draw_button(960, 240, "CONTROLS");
 		set_option_box();
-
 	}
 	void draw_side_block(float *point1, float *point2, float *color1, float *color2)
 	{
-
-
 		glBegin(GL_POLYGON);
 		glColor3fv(color1);
 		glVertex2fv(point1);
@@ -126,7 +118,6 @@ public:
 		glVertex2fv(point2);
 		glVertex2f(point2[0], point1[1]);
 		glEnd();
-
 	}
 
 	void change_option(bool keys[])
@@ -135,11 +126,11 @@ public:
 		{
 			option = 0;
 		}
-		else if(keys[1])
+		else if (keys[1])
 		{
 			option = 1;
 		}
-	   if (keys[5])
+		if (keys[5])
 		{
 			printf("Escape press\n");
 		}
@@ -160,16 +151,14 @@ public:
 	{
 		glColor3f(1, 1, 1);
 		glLineWidth(10);
-		if (option==0)
+		if (option == 0)
 		{
-		
 			glBegin(GL_LINE_LOOP);
 			glVertex2f(960 - 190, 540 - 90);
 			glVertex2f(960 - 190, 540 + 90);
 			glVertex2f(960 + 190, 540 + 90);
 			glVertex2f(960 + 190, 540 - 90);
 			glEnd();
-
 		}
 		else if (option)
 		{
@@ -179,10 +168,6 @@ public:
 			glVertex2f(960 + 190, 240 + 90);
 			glVertex2f(960 + 190, 240 - 90);
 			glEnd();
-
 		}
-		
 	}
-
-
 };
