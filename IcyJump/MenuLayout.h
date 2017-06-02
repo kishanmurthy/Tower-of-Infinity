@@ -23,8 +23,6 @@ public:
 		set_option_box();
 	}
 
-
-
 	int get_option(bool keys[])
 	{
 		set_option(keys);
@@ -34,19 +32,19 @@ public:
 		}
 		return -1;
 	}
-	private:
+private:
 
 	void set_option(bool keys[])
 	{
-			if (keys[0])
-			{
-				selected_option = 0;
-			}
-			else if (keys[1])
-			{
-				selected_option = 1;
-			}
-			set_option_box();
+		if (keys[0])
+		{
+			selected_option = 0;
+		}
+		else if (keys[1])
+		{
+			selected_option = 1;
+		}
+		set_option_box();
 	}
 	void draw_button(float x, float y, char * name)
 	{
@@ -122,7 +120,7 @@ public:
 			glVertex2f(960 + 190, 540 - 90);
 			glEnd();
 		}
-		else if (selected_option==1)
+		else if (selected_option == 1)
 		{
 			glBegin(GL_LINE_LOOP);
 			glVertex2f(960 - 190, 240 - 90);

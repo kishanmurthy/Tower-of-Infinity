@@ -71,8 +71,7 @@ void timmer(int x)
 		player.gameLayout.updateBlocks();
 		player.verticalScrolling();
 		player.updateScrollingSpeed();
-		if (player.checkThreshold())
-			player.decrementAllObjects();
+
 		if (checkEscKey())
 			state = 0;
 

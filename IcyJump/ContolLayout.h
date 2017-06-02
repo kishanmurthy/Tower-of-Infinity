@@ -5,7 +5,7 @@
 class ControlLayout {
 public:
 	void draw_layout_keyboard()
-	{	
+	{
 		float point1[2] = { 0,0 };
 		float point2[2] = { 200,1080 };
 		float color1[3] = { 56 / 255.0,46 / 255.0,28 / 255.0 };
@@ -50,7 +50,7 @@ public:
 		draw_control_block(Block(400, 150, 1520, 225), "QUIT", "X BUTTON", "");
 	}
 
-	private:
+private:
 
 	void draw_control_block(Block block, char action[], char primary[], char alternate[])
 	{

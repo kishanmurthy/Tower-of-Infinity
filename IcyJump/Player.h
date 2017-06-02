@@ -5,6 +5,11 @@
 #define PLAYERTHRESHOLD 800
 class Player
 {
+public:
+	GameLayout gameLayout;
+	Block playerBlock;
+
+private:
 	float initial_velocity_horizontal;
 	float velocity_horizontal;
 	float initial_velocity_vertical;
@@ -14,14 +19,12 @@ class Player
 	float displacement_x;
 	float displacement_y;
 	bool jump;
-	bool jumpFinish;
-	bool autoDecrement;
+	bool start_scrolling;
 	float scrolling_speed;
-	bool scrolling_speed_update = true;
+	bool can_scrolling_speed_updated = true;
 
 public:
-	GameLayout gameLayout;
-	Block playerBlock;
+
 	Player(GameLayout &gameLayout) {
 		this->gameLayout = gameLayout;
 		playerBlock.setAttributes(200, 100, 250, 150);
@@ -35,23 +38,16 @@ public:
 		displacement_x = 0;
 		displacement_y = 0;
 		jump = false;
-		autoDecrement = false;
-		jumpFinish = false;
+		start_scrolling = false;
 		scrolling_speed = 1;
-		scrolling_speed_update = true;
+		can_scrolling_speed_updated = true;
 	}
 
-	bool checkEsc(bool keys[])
-	{
-		if (keys[5])
-			return true;
-		return false;
-	}
 	bool checkThreshold()
 	{
 		if (playerBlock.ym > PLAYERTHRESHOLD)
 		{
-			autoDecrement = true;
+			start_scrolling = true;
 			return true;
 		}
 		return false;
@@ -63,10 +59,16 @@ public:
 		compute_displacement();
 	}
 
+	bool isOut()
+	{
+		if (playerBlock.y2 < 0)
+			return true;
+		return false;
+	}
 	void move_object()
 	{
-		move_vertical(displacement_y);
-		move_horizontal(displacement_x);
+		move_vertical();
+		move_horizontal();
 	}
 	void reset()
 	{
@@ -81,10 +83,9 @@ public:
 		displacement_x = 0;
 		displacement_y = 0;
 		jump = false;
-		jumpFinish = false;
 		scrolling_speed = 1;
-		autoDecrement = false;
-		scrolling_speed_update = true;
+		start_scrolling = false;
+		can_scrolling_speed_updated = true;
 	}
 
 	void resetHorizontalAccelerationifJump()
@@ -114,7 +115,7 @@ public:
 			acceleration_horizontal = 8000;
 
 		if (keys[1])
-		{	
+		{
 			if (initial_velocity_horizontal > 100 && !jump)
 				acceleration_horizontal = -5000;
 			else if (initial_velocity_horizontal < -100 && !jump)
@@ -126,10 +127,67 @@ public:
 			}
 		}
 	}
-
-	void move_horizontal(float dx)
+	void verticalScrolling()
 	{
-		playerBlock.increment_x(dx);
+		if (start_scrolling)
+		{
+			decrementAllObjects(scrolling_speed);
+		}
+		if (checkThreshold())
+			decrementAllObjects();
+	}
+
+	void updateScrollingSpeed()
+	{
+		if (gameLayout.get_block_poped() % 30 == 0 && can_scrolling_speed_updated)
+		{
+			scrolling_speed *= 1.5;
+			can_scrolling_speed_updated = false;
+		}
+		else if (gameLayout.get_block_poped() % 30 != 0)
+		{
+			can_scrolling_speed_updated = true;
+		}
+	}
+private:
+
+	void compute_displacement()
+	{
+		displacement_x = (initial_velocity_horizontal *TIMESTEP) + 0.5 *acceleration_horizontal * TIMESTEP * TIMESTEP;
+		displacement_y = (initial_velocity_vertical * TIMESTEP) + 0.5 * acceleration_vertical * TIMESTEP *TIMESTEP;
+		initial_velocity_horizontal = velocity_horizontal;
+		initial_velocity_vertical = velocity_vertical;
+	}
+
+	void compute_velocity()
+	{
+		velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
+		velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP;
+		if (velocity_horizontal > 2000)
+			velocity_horizontal = 2000;
+		else if (velocity_horizontal < -2000)
+			velocity_horizontal = -2000;
+	}
+	void decrementAllObjects()
+	{
+		float decrementValue = playerBlock.ym - PLAYERTHRESHOLD;
+		decrementPlayerBlock(decrementValue);
+		gameLayout.decrementAllBlocks(decrementValue);
+	}
+
+	void decrementAllObjects(float decrementValue)
+	{
+		decrementPlayerBlock(decrementValue);
+		gameLayout.decrementAllBlocks(decrementValue);
+	}
+	void decrementPlayerBlock(float value)
+	{
+		playerBlock.increment_y(value*-1);
+	}
+
+	void move_horizontal()
+	{
+		playerBlock.increment_x(displacement_x);
 
 		if (playerBlock.x1 > 1670)
 		{
@@ -153,9 +211,9 @@ public:
 		}
 	}
 
-	void move_vertical(float dy)
+	void move_vertical()
 	{
-		playerBlock.increment_y(dy);
+		playerBlock.increment_y(displacement_y);
 		if (gameLayout.checkVerticalCollision(playerBlock))
 		{
 			float collisionValue = gameLayout.getCollisionValue();
@@ -168,83 +226,7 @@ public:
 			if (jump)
 			{
 				jump = false;
-				jumpFinish = 1;
 			}
 		}
-	}
-
-	void compute_velocity()
-	{
-		velocity_vertical = initial_velocity_vertical + acceleration_vertical*TIMESTEP;
-		velocity_horizontal = initial_velocity_horizontal + acceleration_horizontal*TIMESTEP;
-		if (velocity_horizontal > 2000)
-			velocity_horizontal = 2000;
-		else if (velocity_horizontal < -2000)
-			velocity_horizontal = -2000;
-	}
-
-	void compute_displacement()
-	{
-		displacement_x = (initial_velocity_horizontal *TIMESTEP) + 0.5 *acceleration_horizontal * TIMESTEP * TIMESTEP;
-		displacement_y = (initial_velocity_vertical * TIMESTEP) + 0.5 * acceleration_vertical * TIMESTEP *TIMESTEP;
-		initial_velocity_horizontal = velocity_horizontal;
-		initial_velocity_vertical = velocity_vertical;
-	}
-
-	bool getAutoDecrement()
-	{
-		if (autoDecrement)
-			return true;
-		return false;
-	}
-	float getDecrementValue()
-	{
-		return playerBlock.ym - PLAYERTHRESHOLD;
-	}
-
-	void decrementPlayerBlock(float value)
-	{
-		playerBlock.increment_y(value*-1);
-	}
-
-	void decrementAllObjects()
-	{
-		float decrementValue = getDecrementValue();
-		decrementPlayerBlock(decrementValue);
-		gameLayout.decrementAllBlocks(decrementValue);
-	}
-
-	void decrementAllObjects(float decrementValue)
-	{
-		decrementPlayerBlock(decrementValue);
-		gameLayout.decrementAllBlocks(decrementValue);
-	}
-
-	void verticalScrolling()
-	{
-		if (autoDecrement)
-		{
-			decrementAllObjects(scrolling_speed);
-		}
-	}
-
-	void updateScrollingSpeed()
-	{
-		if (gameLayout.get_block_poped() % 50 == 0 && scrolling_speed_update)
-		{
-			scrolling_speed *= 1.5;
-			scrolling_speed_update = false;
-		}
-		else if (gameLayout.get_block_poped() % 50 != 0)
-		{
-			scrolling_speed_update = true;
-		}
-	}
-
-	bool isOut()
-	{
-		if (playerBlock.y2 < 0)
-			return true;
-		return false;
 	}
 };

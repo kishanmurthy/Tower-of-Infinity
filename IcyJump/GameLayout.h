@@ -9,10 +9,9 @@
 #include "Block.h"
 using namespace std;
 class GameLayout {
-
 	list<Block> floors;
 	int blockPushed;
-	int blockPoped ;
+	int blockPoped;
 	int collisionAxis;
 	float collisionValue;
 
@@ -84,7 +83,6 @@ public:
 			blockIterator->increment_y(value*-1);
 		}
 	}
-	
 
 	void draw_game_over()
 	{
@@ -142,75 +140,74 @@ public:
 		glVertex2f(playerBlock.x1, playerBlock.y2);
 		glEnd();
 	}
-		float getCollisionValue()
-		{
-			return collisionValue;
-		}
+	float getCollisionValue()
+	{
+		return collisionValue;
+	}
 
-		int get_block_poped()
-		{
-			return blockPoped;
-		}
+	int get_block_poped()
+	{
+		return blockPoped;
+	}
 
-		bool isCollisionAtBottom()
-		{
-			if (collisionAxis == 2)
-				return true;
-			return false;
-		}
+	bool isCollisionAtBottom()
+	{
+		if (collisionAxis == 2)
+			return true;
+		return false;
+	}
 
-		bool isCollisionAtLeft()
-		{
-			if (collisionAxis == 3)
-				return true;
-			return false;
-		}
+	bool isCollisionAtLeft()
+	{
+		if (collisionAxis == 3)
+			return true;
+		return false;
+	}
 
-		bool isCollisionAtRight()
-		{
-			if (collisionAxis == 4)
-				return true;
-			return false;
-		}
+	bool isCollisionAtRight()
+	{
+		if (collisionAxis == 4)
+			return true;
+		return false;
+	}
 
-		bool isCollisionAtTop()
-		{
-			if (collisionAxis == 1)
-				return true;
-			return false;
-		}
-		
-		void updateBlocks()
-		{
-			if (!is_floor_visible())
-			{
-				if (blockPoped % 2 == 0)
-					generate_random_floor_right();
-				else
-					generate_random_floor_left();
-				blockPushed++;
-				floors.back().setBlockNumber(blockPushed);
-				floors.pop_front();
-				blockPoped++;
-			}
-		}
-				void reset()
-				{
-					floors.clear();
-					floors.push_back(Block(200, 50, 1720, 100, 0));
-					floors.push_back(Block(200, 300, 1000, 350, 1));
-					floors.push_back(Block(500, 500, 1720, 550, 2));
-					floors.push_back(Block(200, 700, 800, 750, 3));
-					floors.push_back(Block(700, 900, 1720, 950, 4));
-					floors.push_back(Block(200, 1100, 1400, 1150, 5));
-					floors.push_back(Block(1000, 1300, 1720, 1350, 6));
-					blockPushed = 6;
-					blockPoped = -1;
-					collisionAxis = 0;
-				}
+	bool isCollisionAtTop()
+	{
+		if (collisionAxis == 1)
+			return true;
+		return false;
+	}
 
-			
-	private:
+	void updateBlocks()
+	{
+		if (!is_floor_visible())
+		{
+			if (blockPoped % 2 == 0)
+				generate_random_floor_right();
+			else
+				generate_random_floor_left();
+			blockPushed++;
+			floors.back().setBlockNumber(blockPushed);
+			floors.pop_front();
+			blockPoped++;
+		}
+	}
+	void reset()
+	{
+		floors.clear();
+		floors.push_back(Block(200, 50, 1720, 100, 0));
+		floors.push_back(Block(200, 300, 1000, 350, 1));
+		floors.push_back(Block(500, 500, 1720, 550, 2));
+		floors.push_back(Block(200, 700, 800, 750, 3));
+		floors.push_back(Block(700, 900, 1720, 950, 4));
+		floors.push_back(Block(200, 1100, 1400, 1150, 5));
+		floors.push_back(Block(1000, 1300, 1720, 1350, 6));
+		blockPushed = 6;
+		blockPoped = -1;
+		collisionAxis = 0;
+	}
+
+private:
 
 	void draw_floor_number(Block &block)
 	{
