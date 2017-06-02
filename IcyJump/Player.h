@@ -15,7 +15,7 @@ class Player
 	float displacement_y;
 	bool jump;
 	bool jumpFinish;
-	bool autoDecrement = false;
+	bool autoDecrement;
 	float scrolling_speed;
 	bool scrolling_speed_update = true;
 
@@ -35,8 +35,10 @@ public:
 		displacement_x = 0;
 		displacement_y = 0;
 		jump = false;
+		autoDecrement = false;
 		jumpFinish = false;
 		scrolling_speed = 1;
+		scrolling_speed_update = true;
 	}
 
 	bool checkEsc(bool keys[])
@@ -112,7 +114,7 @@ public:
 			acceleration_horizontal = 8000;
 
 		if (keys[1])
-		{	//normal retardation
+		{	
 			if (initial_velocity_horizontal > 100 && !jump)
 				acceleration_horizontal = -5000;
 			else if (initial_velocity_horizontal < -100 && !jump)

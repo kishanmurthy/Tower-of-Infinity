@@ -10,10 +10,10 @@ public:
 		float point2[2] = { 200,1080 };
 		float color1[3] = { 56 / 255.0,46 / 255.0,28 / 255.0 };
 		float color2[3] = { 186 / 255.0,163 / 255.0,120 / 255.0 };
-		draw_side_block(point1, point2, color1, color2);
+		draw_side_wall(point1, point2, color1, color2);
 		float point3[2] = { 1720,0 };
 		float point4[2] = { 1920,1080 };
-		draw_side_block(point3, point4, color1, color2);
+		draw_side_wall(point3, point4, color1, color2);
 
 		draw_heading_keyboard();
 		draw_control_heading(Block(400, 850, 1520, 950));
@@ -33,11 +33,11 @@ public:
 		float color1[3] = { 56 / 255.0,46 / 255.0,28 / 255.0 };
 		float color2[3] = { 186 / 255.0,163 / 255.0,120 / 255.0 };
 
-		draw_side_block(point1, point2, color1, color2);
+		draw_side_wall(point1, point2, color1, color2);
 
 		float point3[2] = { 1720,0 };
 		float point4[2] = { 1920,1080 };
-		draw_side_block(point3, point4, color1, color2);
+		draw_side_wall(point3, point4, color1, color2);
 
 		draw_heading_controller();
 		draw_control_heading(Block(400, 850, 1520, 950));
@@ -159,7 +159,7 @@ public:
 		for (int i = 0; i < strlen(str2); i++)
 			glutBitmapCharacter(GLUT_BITMAP_HELVETICA_18, str2[i]);
 	}
-	void draw_side_block(float *point1, float *point2, float *color1, float *color2)
+	void draw_side_wall(float *point1, float *point2, float *color1, float *color2)
 	{
 		glBegin(GL_POLYGON);
 		glColor3fv(color1);
