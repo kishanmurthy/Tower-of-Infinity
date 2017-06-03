@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26228.4
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "IcyJump", "IcyJump\IcyJump.vcxproj", "{161E6B46-F7F4-438A-A172-05F4209FF8DE}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Tower of Infinity", "Tower of Infinity\Tower of Infinity.vcxproj", "{161E6B46-F7F4-438A-A172-05F4209FF8DE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
