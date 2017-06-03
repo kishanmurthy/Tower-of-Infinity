@@ -1,5 +1,5 @@
-#include<stdio.h>
-#include <GL/glut.h>
+#pragma once
+#include <GL/freeglut.h>
 class MenuLayout {
 	int selected_option = 0;
 
@@ -11,9 +11,7 @@ public:
 		float point2[2] = { 200,1080 };
 		float color1[3] = { 56 / 255.0,46 / 255.0,28 / 255.0 };
 		float color2[3] = { 186 / 255.0,163 / 255.0,120 / 255.0 };
-
 		draw_side_wall(point1, point2, color1, color2);
-
 		float point3[2] = { 1720,0 };
 		float point4[2] = { 1920,1080 };
 		draw_side_wall(point3, point4, color1, color2);
@@ -58,7 +56,6 @@ private:
 		glVertex2f(x + 200, y + 100);
 		glVertex2f(x + 200, y - 100);
 		glEnd();
-
 		glRasterPos2f(x - 50, y - 12);
 		for (int i = 0; i < strlen(name); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, name[i]);
@@ -89,7 +86,6 @@ private:
 		float color_background[3] = { 15 / 255.0,124 / 255.0,198 / 255.0 };
 		float color1[3] = { 56 / 255.0,46 / 255.0,28 / 255.0 };
 		float color2[3] = { 80 / 255.0,60 / 255.0,40 / 255.0 };
-
 		glColor3fv(color_background);
 		glRectf(200, 800, 1720, 1080);
 		glColor3fv(color);
@@ -100,7 +96,6 @@ private:
 		glVertex2f(1720, 1078);
 		glVertex2f(1720, 800);
 		glEnd();
-
 		char str1[] = "TOWER OF INFINITY";
 		glColor3f(1, 1, 1);
 		glRasterPos2f(830, 925);

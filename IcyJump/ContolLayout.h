@@ -1,5 +1,5 @@
 #pragma once
-#include<GL/glut.h>
+#include <GL/freeglut.h>
 #include "Block.h"
 
 class ControlLayout {
@@ -14,7 +14,6 @@ public:
 		float point3[2] = { 1720,0 };
 		float point4[2] = { 1920,1080 };
 		draw_side_wall(point3, point4, color1, color2);
-
 		draw_heading_keyboard();
 		draw_control_heading(Block(400, 850, 1520, 950));
 		draw_control_block(Block(400, 750, 1520, 825), "MOVE LEFT", "LEFT-ARROW", "A");
@@ -32,13 +31,10 @@ public:
 		float point2[2] = { 200,1080 };
 		float color1[3] = { 56 / 255.0,46 / 255.0,28 / 255.0 };
 		float color2[3] = { 186 / 255.0,163 / 255.0,120 / 255.0 };
-
 		draw_side_wall(point1, point2, color1, color2);
-
 		float point3[2] = { 1720,0 };
 		float point4[2] = { 1920,1080 };
 		draw_side_wall(point3, point4, color1, color2);
-
 		draw_heading_controller();
 		draw_control_heading(Block(400, 850, 1520, 950));
 		draw_control_block(Block(400, 750, 1520, 825), "MOVE LEFT", "LS LEFT", "");

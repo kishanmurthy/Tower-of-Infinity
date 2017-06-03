@@ -1,11 +1,6 @@
 #pragma once
-#include<stdio.h>
-#include<iostream>
-#include<vector>
 #include<list>
-#include<string>
-#include<cmath>
-#include<GL/glut.h>
+#include <GL/freeglut.h>
 #include "Block.h"
 using namespace std;
 class GameLayout {
@@ -45,7 +40,6 @@ public:
 						collisionValue = (*blockIterator).x1;
 						collisionAxis = 4;
 					}
-
 					return true;
 				}
 		}
@@ -69,7 +63,6 @@ public:
 						collisionValue = (*blockIterator).y1;
 						collisionAxis = 1;
 					}
-
 					return true;
 				}
 		}
@@ -97,7 +90,6 @@ public:
 		glVertex2f(1260, 640);
 		glVertex2f(1260, 340);
 		glEnd();
-
 		char score[] = "GAME OVER!!!";
 		glRasterPos2f(830, 480);
 		for (int i = 0; i < strlen(score); i++)
@@ -110,13 +102,10 @@ public:
 		float point2[2] = { 200,1080 };
 		float color1[3] = { 56 / 255.0,46 / 255.0,28 / 255.0 };
 		float color2[3] = { 186 / 255.0,163 / 255.0,120 / 255.0 };
-
 		draw_side_wall(point1, point2, color1, color2);
-
 		float point3[2] = { 1720,0 };
 		float point4[2] = { 1920,1080 };
 		draw_side_wall(point3, point4, color1, color2);
-
 		render_floors();
 		draw_score();
 	}

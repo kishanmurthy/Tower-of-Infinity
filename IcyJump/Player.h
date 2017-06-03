@@ -1,4 +1,4 @@
-#include<stdio.h>
+#pragma once
 #include "GameLayout.h"
 #include "Block.h"
 #define TIMESTEP 1.0/60.0
@@ -28,7 +28,6 @@ public:
 	Player(GameLayout &gameLayout) {
 		this->gameLayout = gameLayout;
 		playerBlock.setAttributes(200, 100, 250, 150);
-
 		initial_velocity_horizontal = 0;
 		velocity_horizontal = 0;
 		initial_velocity_vertical = 0;

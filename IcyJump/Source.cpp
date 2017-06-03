@@ -1,6 +1,4 @@
-#include<GL/glut.h>
-#include<iostream>
-#include<stdio.h>
+#include <GL/freeglut.h>
 #include "Player.h"
 #include "InputBuffer.h"
 #include "GameLayout.h"
@@ -30,9 +28,7 @@ void render()
 	glClearColor(230.0 / 255, 255.0 / 255, 240.0 / 255, 1);
 	glClear(GL_COLOR_BUFFER_BIT);
 	if (state == 0)
-	{
 		menuLayout.draw_layout();
-	}
 	else if (state == 1 || state == 4)
 	{
 		player.gameLayout.draw_layout();
@@ -41,18 +37,14 @@ void render()
 			player.gameLayout.draw_game_over();
 	}
 	else if (state == 2)
-	{
 		controlLayout.draw_layout_keyboard();
-	}
 	else if (state == 3)
-	{
 		controlLayout.draw_layout_controller();
-	}
 
 	glutSwapBuffers();
 }
 
-void timmer(int x)
+void timer(int x)
 {
 	if (state == 0)
 	{
@@ -97,7 +89,7 @@ void timmer(int x)
 		if (checkEscKey())
 			state = 0;
 	}
-	glutTimerFunc(1000 / FPS, timmer, 60);
+	glutTimerFunc(1000 / FPS, timer, 60);
 	glutPostRedisplay();
 }
 void reshape(int w, int h)
@@ -122,13 +114,6 @@ void myinit()
 	gluOrtho2D(0, 1920, 0, 1080);
 	glMatrixMode(GL_MODELVIEW);
 }
-void joystick(unsigned int b, int x, int y, int z)
-{
-	if (x > 200)
-		InputBuffer::keys[1] = true;
-	else if (x < -200)
-		printf("Left\n");
-}
 
 int main(int argc, char *argv[])
 {
@@ -137,7 +122,7 @@ int main(int argc, char *argv[])
 	glutInitWindowSize(1920, 1080);
 	glutCreateWindow("TOWER OF INFINITY");
 	myinit();
-	//glutFullScreen();
+	glutFullScreen();
 	glutDisplayFunc(render);
 	glutKeyboardFunc(&(InputBuffer::keyboardDown));
 	glutKeyboardUpFunc(&(InputBuffer::keyboardUp));
@@ -146,6 +131,6 @@ int main(int argc, char *argv[])
 	glutJoystickFunc(&InputBuffer::controller, 1000 / FPS);
 	glutSetCursor(GLUT_CURSOR_NONE);
 	glutReshapeFunc(reshape);
-	glutTimerFunc(1000 / FPS, timmer, 60);
+	glutTimerFunc(1000 / FPS, timer, 60);
 	glutMainLoop();
 }

@@ -1,7 +1,5 @@
-#include<GL/glut.h>
-#include<stdio.h>
-#include<iostream>
-using namespace std;
+#pragma once
+#include <GL/freeglut.h>
 class InputBuffer
 {
 public:
