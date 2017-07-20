@@ -16,7 +16,7 @@ public:
 		float point4[2] = { 1920,1080 };
 		draw_side_wall(point3, point4, color1, color2);
 		draw_title();
-		draw_button(960, 540, "   PLAY  ");
+		draw_button(960, 540, "     PLAY");
 		draw_button(960, 240, "CONTROLS");
 		set_option_box();
 	}
@@ -56,7 +56,7 @@ private:
 		glVertex2f(x + 200, y + 100);
 		glVertex2f(x + 200, y - 100);
 		glEnd();
-		glRasterPos2f(x - 50, y - 12);
+		glRasterPos2f(x - 62, y - 12);
 		for (int i = 0; i < strlen(name); i++)
 			glutBitmapCharacter(GLUT_BITMAP_TIMES_ROMAN_24, name[i]);
 	}
